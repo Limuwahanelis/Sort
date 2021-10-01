@@ -2,9 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Sort : MonoBehaviour
+public abstract class Sort
 {
     public List<ItemToSort> itemsToSort = new List<ItemToSort>();
+
+    public Sort(List<ItemToSort> items)
+    {
+        itemsToSort = items;
+    }
+
+    public abstract void PerformSorting();
 
     public void Swap(int firstItemIndex,int secondItemIndex)
     {
