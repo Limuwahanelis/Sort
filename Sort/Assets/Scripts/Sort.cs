@@ -4,15 +4,16 @@ using UnityEngine;
 
 public abstract class Sort
 {
+    protected Sorter sorter;
     public List<ItemToSort> itemsToSort = new List<ItemToSort>();
-
-    public Sort(List<ItemToSort> items)
+    public Sort(List<ItemToSort> items,Sorter sorter)
     {
         itemsToSort = items;
+        this.sorter = sorter;
     }
 
     public abstract void PerformSorting();
-
+    public abstract void PerfromStep();
     public void Swap(int firstItemIndex,int secondItemIndex)
     {
         ItemToSort tmp = itemsToSort[firstItemIndex];

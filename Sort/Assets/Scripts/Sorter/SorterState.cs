@@ -6,5 +6,10 @@ public abstract class SorterState
 {
     protected Sorter sorter;
 
+    public SorterState(Sorter sorter)
+    {
+        this.sorter = sorter;
+    }
+
     public abstract void Update();
 }
