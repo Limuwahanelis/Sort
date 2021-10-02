@@ -26,7 +26,7 @@ public class ItemSpawner : MonoBehaviour
         for(int i=0;i<numberOfSpawnedItems;i++)
         {
             GameObject item = itemsToSpawnPrefabs[Random.Range(0, itemsToSpawnPrefabs.Count)];
-            Vector3 pos = new Vector3(-2 -i * distanceBetweenItems, 1.125f, 0);
+            Vector3 pos = new Vector3(-2 -i * distanceBetweenItems, 1.125f, -0.5f);
             GameObject newItem= Instantiate(item, pos, item.transform.rotation);
             sorter.AddItem(newItem.GetComponent<ItemToSort>());
         }

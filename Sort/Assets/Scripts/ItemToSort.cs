@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemToSort : MonoBehaviour
 {
     public int value;
-
+    public Transform handle;
     // Start is called before the first frame update
     void Start()
     {

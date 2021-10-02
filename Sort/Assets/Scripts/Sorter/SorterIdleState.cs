@@ -9,6 +9,7 @@ public class SorterIdleState : SorterState
     {
         sorter.anim.SetBool("Move Right", false);
         sorter.anim.SetBool("Move Left", false);
+
     }
 
     public override void Update()

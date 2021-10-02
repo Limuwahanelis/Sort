@@ -23,6 +23,13 @@ public class BubbleSort : Sort
             GoBetweenItems(innerLoopIndex);
             sorter.StartCoroutine(WaitForSorterToArrive());
         }
+        else
+        {
+            outerLoopIndex--;
+            innerLoopIndex = 0;
+            GoBetweenItems(innerLoopIndex);
+            sorter.StartCoroutine(WaitForSorterToArrive());
+        }
     }
 
     public void PerformSwapping()
@@ -44,7 +51,26 @@ public class BubbleSort : Sort
     {
         while (!sorter.isStandingAtTargetItem) yield return null;
         yield return new WaitForSeconds(1f);
+        if (itemsToSort[innerLoopIndex + 1].value < itemsToSort[innerLoopIndex].value)
+        {
+            sorter.swappedItems = false;
+            sorter.SetItemsTohands(itemsToSort[innerLoopIndex + 1], itemsToSort[innerLoopIndex]);
+            sorter.StartCoroutine(WaitForItemSwap());
+        }
+        else
+        {
+            innerLoopIndex++;
+            PerfromStep();
+        }
+        
+        
+    }
+    public IEnumerator WaitForItemSwap()
+    {
+        while (!sorter.swappedItems) yield return null;
+        Swap(innerLoopIndex, innerLoopIndex + 1);
         innerLoopIndex++;
+        PerfromStep();
     }
 }
         //for (int i = itemsToSort.Count - 1; i > 0; i--)
