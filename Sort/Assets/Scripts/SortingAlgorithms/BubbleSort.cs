@@ -31,20 +31,10 @@ public class BubbleSort : Sort
             sorter.StartCoroutine(WaitForSorterToArrive());
         }
     }
-
-    public void PerformSwapping()
-    {
-
-    }
-
     public bool PerformCheck()
     {
         if (itemsToSort[innerLoopIndex].value > itemsToSort[innerLoopIndex].value) return true;
         return false;
-    }
-    public override void PerformSorting()
-    {
-
     }
 
     public IEnumerator WaitForSorterToArrive()

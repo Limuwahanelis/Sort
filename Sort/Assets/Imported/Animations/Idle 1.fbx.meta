@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 3d93063e99f9754469cde837e98193bb
+guid: 309b7c9697b79894e857176f3c6dc6ab
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Left Strafe1
+    second: Idle1
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -35,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Left Strafe1
+      name: Idle1
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 62
+      lastFrame: 500
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -51,7 +51,7 @@ ModelImporter:
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 1
+      keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
