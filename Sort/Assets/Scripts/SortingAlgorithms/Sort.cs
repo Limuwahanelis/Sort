@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Sort
 {
+    
     public bool canPerformNextStep;
     protected Sorter sorter;
     public List<ItemToSort> itemsToSort = new List<ItemToSort>();

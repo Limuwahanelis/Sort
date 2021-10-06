@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class Sorter : MonoBehaviour
 {
+    public SorterAnimationFunctions animFunc;
+    public Transform itemPushedPos;
     public float layerSwapSpeed;
-    public bool isSwappingItems;
+    public bool isPushingItem=false;
     public bool swappedItems = false;
     public bool swappedLayers;
     public float swapSpeed;
+    public float pushSpeed;
     public ItemToSort lefthandItem;
     public ItemToSort righthandItem;
     public Transform rightHandHandle;
     public Transform lefthandhandle;
+    public Transform inFrontPos;
     //public SorterRigController sorterRigController;
     public Animator anim;
     public float movementSpeed;
     public bool isStandingAtTargetItem=false;
-    public bool hashandAbove = false;
     [SerializeField]
     List<ItemToSort> itemsToSort = new List<ItemToSort>();
     public Sort sortingAlgorithm;
@@ -34,8 +37,6 @@ public class Sorter : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Y))
         {
-            //sortingAlgorithm = new BubbleSort(itemsToSort, this);
-            //sortingAlgorithm = new BubbleSort2(itemsToSort, this);
             //sortingAlgorithm = new BubbleSort2(itemsToSort, this);
             sortingAlgorithm = new QuickSortAlg(itemsToSort, this);
             sortingAlgorithm.PerfromStep();
@@ -43,10 +44,6 @@ public class Sorter : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.A))
         {
             state = new SorterSwappingItemsState(this,righthandItem.transform.position,lefthandItem.transform.position);
-            //if(anim.GetLayerWeight(3)>=1)
-            //{
-            //    anim.SetTrigger("ff");
-            //}
         }
         state.Update();
         if(sortingAlgorithm!=null)
@@ -83,11 +80,6 @@ public class Sorter : MonoBehaviour
         righthandItem.transform.position = newPos;
     }
 
-    public void swapItems()
-    {
-        //state = new SorterSwappingItemsState(this, righthandItem.transform.position, lefthandItem.transform.position);
-    }
-
     public IEnumerator WaitSomeTIme(float time,System.Action functionToPerform)
     {
         yield return new WaitForSeconds(time);
@@ -95,7 +87,7 @@ public class Sorter : MonoBehaviour
     }
     public IEnumerator SwapAnimatorWeighs(int layerToReduceWeight,int layerToIncreaseWeight)
     {
-
+        swappedLayers = false;
         while(anim.GetLayerWeight(layerToIncreaseWeight)<1)
         {
             yield return null;
@@ -110,20 +102,5 @@ public class Sorter : MonoBehaviour
         swappedLayers = true;
     }
 
-    public void Attach()
-    {
-        //lefthandItem.transform.parent = lefthandhandle;
-        //righthandItem.transform.parent = rightHandHandle;
-        isSwappingItems = true;
-    }
-    public void Detach()
-    {
-        //isSwappingItems = false;
-    }
 
-    public void CorrectItemsPos(Vector3 leftItempos,Vector3 rightItemPos)
-    {
-        lefthandItem.transform.position = leftItempos;
-        righthandItem.transform.position = rightItemPos;
-    }
 }

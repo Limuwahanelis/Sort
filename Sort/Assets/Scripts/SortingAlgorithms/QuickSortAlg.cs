@@ -8,8 +8,14 @@ public class QuickSortAlg : Sort
     enum STEP
     {
         SELECT_PIVOT,
+        GO_TO_LOCATION,
+        PUSH_PIVOT,
+        PICK_PIVOT,
+        PICK_ITEM_UP,
+        PUT_ITEM_DOWN,
         COMPARE,
         SWAP,
+        SORT,
         INCREASE_INDEX,
         SELECT_PARTITION,
         MOVE_UP,
@@ -35,15 +41,18 @@ public class QuickSortAlg : Sort
         }
 
     }
+    Vector3 newLoc;
     List<qSortData> qSorts= new List<qSortData>();
     int iteration;
     int curLeft;
     int curRight;
     Vector3 curLastItemPos;
     ItemToSort curPivot;
-    STEP currentStep;
+    STEP mainStep;
+    STEP subStep;
     int indexI;
     int indexJ;
+    int goNUM = 0;
     //bool isd = false;
     public QuickSortAlg(List<ItemToSort> items, Sorter sorter) : base(items, sorter)
     {
@@ -52,76 +61,269 @@ public class QuickSortAlg : Sort
         indexI = indexJ = 0;
         curLeft = 0;
         curRight = itemsToSort.Count - 1;
-        currentStep = STEP.SELECT_PIVOT;
+        mainStep = STEP.SELECT_PIVOT;
+        subStep = STEP.SELECT_PIVOT;
         canPerformNextStep = true;
         //PerfromStep();
         //qSort(0, itemsToSort.Count - 1);
     }
-
+    public override void MoveToNextStep()
+    {
+        canPerformNextStep = true;
+        
+    }
+    void MoveToNewPos(ItemToSort item)
+    {
+        sorter.ChangeState(new SorterMovingState(sorter,new Vector3( item.transform.position.x, sorter.transform.position.y, sorter.transform.position.z)));
+    }
+    void MoveToNewPos(Vector3 itemPos)
+    {
+        sorter.ChangeState(new SorterMovingState(sorter, new Vector3(itemPos.x, sorter.transform.position.y, sorter.transform.position.z)));
+    }
     public override void PerfromStep()
     {
         if (canPerformNextStep)
         {
-            switch (currentStep)
+            switch (mainStep)
             {
                 case STEP.SELECT_PIVOT:
                     {
-                        //
-                        indexI = (curLeft + curRight) / 2;
-                        curLastItemPos = itemsToSort[curRight].transform.position;
-                        curPivot = itemsToSort[indexI];
-                        SwapG(indexI, curRight);
-                        Vector3 tmpPos = curPivot.transform.position;
-                        //ChangePos(indexI, tmpPos);
-                        indexJ = indexI = curLeft;
-                        curPivot.transform.position = new Vector3(curPivot.transform.position.x, curPivot.transform.position.y, curPivot.transform.position.z + 0.5f);
-                        currentStep++;
-                        canPerformNextStep = false;
-                        sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
+
+                        if(subStep==STEP.SELECT_PIVOT)
+                        {
+                            indexI = (curLeft + curRight) / 2;
+                            curLastItemPos = itemsToSort[curRight].transform.position;
+                            curPivot = itemsToSort[indexI];
+
+                            goNUM++;
+                            subStep = STEP.GO_TO_LOCATION;
+                        }
+                        if (subStep == STEP.GO_TO_LOCATION)
+                        {
+                            if (goNUM == 1)
+                            {
+                                newLoc = new Vector3(curPivot.transform.position.x, sorter.transform.position.y, sorter.transform.position.z);
+                                sorter.ChangeState(new SorterMovingState(sorter, newLoc));
+                                canPerformNextStep = false;
+                                subStep = STEP.PUSH_PIVOT;
+                                break;
+                            }
+                            if (goNUM == 2)
+                            {
+                                newLoc = new Vector3(itemsToSort[curRight].transform.position.x, sorter.transform.position.y, sorter.transform.position.z);
+                                sorter.ChangeState(new SorterMovingState(sorter, newLoc));
+
+                                canPerformNextStep = false;
+                                subStep = STEP.PICK_ITEM_UP;
+                                break;
+                            }
+                            if(goNUM==3)
+                            {
+                                newLoc = new Vector3(curPivot.transform.position.x, sorter.transform.position.y, sorter.transform.position.z);
+                                sorter.ChangeState(new SorterMovingState(sorter, newLoc));
+                                canPerformNextStep = false;
+                                subStep = STEP.PUT_ITEM_DOWN;
+                                break;
+                            }
+                        }
+                        if(subStep==STEP.PUSH_PIVOT)
+                        {
+                            sorter.ChangeState(new SorterPushingState(sorter, curPivot));
+                            canPerformNextStep = false;
+                            goNUM++;
+                            subStep = STEP.GO_TO_LOCATION;
+                            break;
+                        }
+                        if(subStep==STEP.PICK_ITEM_UP)
+                        {
+                            sorter.ChangeState(new SorterPickingItemUpState(sorter, itemsToSort[curRight]));
+                            Swap(indexI, curRight);
+                            indexJ = indexI = curLeft;
+                            goNUM++;
+                            subStep = STEP.GO_TO_LOCATION;
+                            canPerformNextStep = false;
+                            break;
+                        }
+                        if(subStep==STEP.PUT_ITEM_DOWN)
+                        {
+                            sorter.ChangeState(new SorterPuttingItemDownState(sorter));
+                            canPerformNextStep = false;
+                            mainStep = STEP.COMPARE;
+                            subStep = STEP.GO_TO_LOCATION;
+                            goNUM = 0;
+                            break;
+                        }
                         break;
                     }
-
                 case STEP.COMPARE:
                     {
-                        if (itemsToSort[indexI].value < curPivot.value)
+                        if(subStep==STEP.COMPARE)
                         {
-                            currentStep++;
+                            if (itemsToSort[indexI].value < curPivot.value)
+                            {
+                                mainStep = STEP.SWAP;
+                                subStep = STEP.PICK_ITEM_UP;
+                                if (indexI==indexJ)
+                                {
+                                    mainStep = STEP.INCREASE_INDEX;
+                                    //subStep
+                                    indexJ++;
+                                }
+                            }
+                            else
+                            {
+                                mainStep = STEP.INCREASE_INDEX;
+                                subStep = STEP.INCREASE_INDEX;
+                            }
                         }
-                        else
+                        if (subStep==STEP.GO_TO_LOCATION)
                         {
-                            currentStep = STEP.INCREASE_INDEX;
+                            if(goNUM==0)
+                            {
+                                newLoc = new Vector3(itemsToSort[indexI].transform.position.x, sorter.transform.position.y, sorter.transform.position.z);
+                                sorter.ChangeState(new SorterMovingState(sorter, newLoc));
+                                canPerformNextStep = false;
+                                subStep = STEP.COMPARE;
+                                break;
+                            }
                         }
-                        canPerformNextStep = false;
-                        sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
+                        // go to indexI
+                        // compare to pivot
+                        // if < than pivot swap with indexJ 
                         break;
                     }
                 case STEP.SWAP:
                     {
-                        SwapG(indexI, indexJ);
-                        indexJ++;
-                        currentStep = STEP.INCREASE_INDEX;
-                        canPerformNextStep = false;
-                        sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
+                        if(subStep==STEP.PICK_ITEM_UP)
+                        {
+
+                        }
                         break;
                     }
+                //case STEP.COMPARE:
+                //    {
+                //        if (itemsToSort[indexI].value < curPivot.value)
+                //        {
+                //            mainStep = STEP.SWAP;
+                //        }
+                //        else
+                //        {
+                //            mainStep = STEP.INCREASE_INDEX;
+                //        }
+                //        //canPerformNextStep = false;
+                //        //sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
+                //        break;
+                //    }
+                //case STEP.SWAP:
+                //    {
+                //        //go to indexi grab
+                //        //go to indexj grab
+                //        //put item i down
+                //        //go to prevoious i pos
+                //        //put item j down
+                //        Swap(indexI, indexJ);
+                //        indexJ++;
+                //        mainStep = STEP.INCREASE_INDEX;
+                //        canPerformNextStep = false;
+                //        sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
+                //        break;
+                //    }
                 case STEP.INCREASE_INDEX:
                     {
-                        indexI++;
-                        if (indexI >= curRight)
+                        if (subStep == STEP.INCREASE_INDEX)
                         {
-                            ChangePos(curRight, curLastItemPos);
-                            SwapG(indexJ, curRight);
-                            currentStep = STEP.SELECT_PARTITION;
+                            indexI++;
+                            if (indexI >= curRight)
+                            {
+                                subStep = STEP.GO_TO_LOCATION;
+                                goNUM = 1;
+                                //ChangePos(curRight, curLastItemPos);
+                                //SwapG(indexJ, curRight);
+                                //mainStep = STEP.SELECT_PARTITION;
+                            }
+                            else
+                            {
+                                mainStep = STEP.COMPARE;
+                                subStep = STEP.GO_TO_LOCATION;
+                                goNUM = 0;
+
+                            }
                         }
-                        else
+                        if(subStep==STEP.GO_TO_LOCATION)
                         {
-                            currentStep = STEP.COMPARE;
-                            
+                            if(goNUM==1)
+                            {
+                                newLoc =new Vector3(itemsToSort[indexJ].transform.position.x, sorter.transform.position.y, sorter.transform.position.z);
+                                sorter.ChangeState(new SorterMovingState(sorter, newLoc));
+                                subStep = STEP.PICK_ITEM_UP;
+                                canPerformNextStep = false;
+                                break;
+                            }
+                            if(goNUM==2)
+                            {
+                                newLoc = curLastItemPos;
+                                curLastItemPos = itemsToSort[indexJ].transform.position; // store indexJ pos
+                                sorter.ChangeState(new SorterMovingState(sorter, newLoc));
+                                canPerformNextStep = false;
+                                subStep = STEP.PUT_ITEM_DOWN;
+                            }
+                            if(goNUM==3)
+                            {
+                                MoveToNewPos(curPivot);
+                                subStep = STEP.PICK_PIVOT;
+                                canPerformNextStep = false;
+                            }
+                            if(goNUM==4)
+                            {
+                                MoveToNewPos(curLastItemPos);
+                                canPerformNextStep = false;
+                                mainStep = STEP.SWAP;
+                                subStep = STEP.PICK_ITEM_UP;
+                                goNUM = 0;
+                            }
                         }
-                        canPerformNextStep = false;
-                        sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
+                        if(subStep==STEP.PICK_ITEM_UP)
+                        {
+                            sorter.ChangeState(new SorterPickingItemUpState(sorter, itemsToSort[indexJ]));
+                            canPerformNextStep = false;
+                            subStep = STEP.GO_TO_LOCATION;
+                            goNUM++;
+
+                        }
+                        if(subStep==STEP.PUT_ITEM_DOWN)
+                        {
+                            sorter.ChangeState(new SorterPuttingItemDownState(sorter));
+                            subStep = STEP.GO_TO_LOCATION;
+                            canPerformNextStep = false;
+                            goNUM++;
+                        }
+                        if(subStep==STEP.PICK_PIVOT)
+                        {
+                            sorter.ChangeState(new SorterGrabPushedItemState(sorter, curPivot));
+                            canPerformNextStep = false;
+                            subStep = STEP.GO_TO_LOCATION;
+                            goNUM++;
+                        }
                         break;
                     }
+                //case STEP.INCREASE_INDEX:
+                //    {
+                //        indexI++;
+                //        if (indexI >= curRight)
+                //        {
+                //            ChangePos(curRight, curLastItemPos);
+                //            SwapG(indexJ, curRight);
+                //            mainStep = STEP.SELECT_PARTITION;
+                //        }
+                //        else
+                //        {
+                //            mainStep = STEP.COMPARE;
+                            
+                //        }
+                //        canPerformNextStep = false;
+                //        sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
+                //        break;
+                //    }
                 case STEP.SELECT_PARTITION:
                     {
                         int tmpleft = curLeft;
@@ -140,7 +342,7 @@ public class QuickSortAlg : Sort
                             makeNewQsortRight(tmpJ + 1, tmpRight);
                             break;
                         }
-                        currentStep = STEP.SELECT_OTHER_PARTITION;
+                        mainStep = STEP.SELECT_OTHER_PARTITION;
                         //Move UP
                         break;
                     }
@@ -155,7 +357,7 @@ public class QuickSortAlg : Sort
                         }
                         else
                         {
-                            currentStep = STEP.SELECT_OTHER_PARTITION;
+                            mainStep = STEP.SELECT_OTHER_PARTITION;
                             canPerformNextStep = false;
                             sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
                         }
@@ -173,7 +375,7 @@ public class QuickSortAlg : Sort
                                 curLeft = tmp.indexJ + 1;
                                 curRight = tmp.right;
                                 tmp.sortedRight = true;
-                                currentStep = STEP.SELECT_PIVOT;
+                                mainStep = STEP.SELECT_PIVOT;
                                 canPerformNextStep = false;
                                 sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
                                 break;
@@ -191,7 +393,7 @@ public class QuickSortAlg : Sort
                                 curLeft = tmp.left;
                                 curRight = tmp.indexJ-1;
                                 tmp.sortedleft = true;
-                                currentStep = STEP.SELECT_PIVOT;
+                                mainStep = STEP.SELECT_PIVOT;
                                 canPerformNextStep = false;
                                 sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
                                 break;
@@ -201,7 +403,7 @@ public class QuickSortAlg : Sort
                                 tmp.sortedleft = true;
                             }
                         }
-                        currentStep = STEP.MOVE_UP;
+                        mainStep = STEP.MOVE_UP;
                         canPerformNextStep = false;
                         sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
                         break;
@@ -215,7 +417,7 @@ public class QuickSortAlg : Sort
         curLeft = left;
         curRight = right;
         iteration++;
-        currentStep = STEP.SELECT_PIVOT;
+        mainStep = STEP.SELECT_PIVOT;
         canPerformNextStep = false;
         sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
         //canPerformNextStep = false;
@@ -229,7 +431,7 @@ public class QuickSortAlg : Sort
         curLeft = left;
         curRight = right;
         iteration++;
-        currentStep = STEP.SELECT_PIVOT;
+        mainStep = STEP.SELECT_PIVOT;
         canPerformNextStep = false;
         sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
 

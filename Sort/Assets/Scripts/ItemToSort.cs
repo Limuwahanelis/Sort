@@ -6,6 +6,7 @@ public class ItemToSort : MonoBehaviour
 {
     public int value;
     public Transform handle;
+    private Transform positionToFollow;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +16,15 @@ public class ItemToSort : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(positionToFollow!=null)
+        {
+            transform.position = positionToFollow.position;
+        }
+    }
+
+    public void SetPositionTOFollow(Transform position)
+    {
+        positionToFollow = position;
     }
 
 

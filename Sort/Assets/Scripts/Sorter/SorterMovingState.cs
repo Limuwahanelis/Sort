@@ -9,7 +9,6 @@ public class SorterMovingState : SorterState
     public SorterMovingState(Sorter sorter,Vector3 targetPos):base(sorter)
     {
         sorter.isStandingAtTargetItem = false;
-        Debug.Log(targetPos);
         this.targetPos = targetPos;
         if (targetPos.x > sorter.transform.position.x)
         {

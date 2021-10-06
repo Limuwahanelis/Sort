@@ -30,7 +30,7 @@ public class SorterSwappingItemsState : SorterState
             }
 
         }
-        if(sorter.isSwappingItems)
+        if(sorter.animFunc.isSwappingItems)
         {
             Vector3 RightItemPos = sorter.righthandItem.transform.position;
             Vector3 LeftItemPos = sorter.lefthandItem.transform.position;
@@ -50,7 +50,7 @@ public class SorterSwappingItemsState : SorterState
             if (movedItems)
             {
                 swappedItems = true;
-                sorter.isSwappingItems = false;
+                sorter.animFunc.isSwappingItems = false;
                 Debug.Log("swap");
                 sorter.StartCoroutine(sorter.SwapAnimatorWeighs(3, 1));
                 
