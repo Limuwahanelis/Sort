@@ -17,7 +17,6 @@ public class Sorter : MonoBehaviour
     public Transform rightHandHandle;
     public Transform lefthandhandle;
     public Transform inFrontPos;
-    //public SorterRigController sorterRigController;
     public Animator anim;
     public float movementSpeed;
     public bool isStandingAtTargetItem=false;

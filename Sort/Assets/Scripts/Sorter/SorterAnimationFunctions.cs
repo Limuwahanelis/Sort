@@ -10,8 +10,6 @@ public class SorterAnimationFunctions : MonoBehaviour
     public bool hasHandAbovePushedItem;
     public void Attach()
     {
-        //lefthandItem.transform.parent = lefthandhandle;
-        //righthandItem.transform.parent = rightHandHandle;
         isSwappingItems = true;
     }
 

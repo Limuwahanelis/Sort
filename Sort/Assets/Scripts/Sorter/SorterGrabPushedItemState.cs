@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SorterGrabPushedItemState : SorterState
 {
-    bool _isGrabbing = false;
     ItemToSort itemToGrab;
     public SorterGrabPushedItemState(Sorter sorter, ItemToSort itemToGrab) : base(sorter)
     {
@@ -28,7 +27,6 @@ public class SorterGrabPushedItemState : SorterState
         }
         if (sorter.animFunc.hasHandAbovePushedItem)
         {
-            //sorter.anim.SetBool("Grab Left Hand", true);
             itemToGrab.SetPositionTOFollow(sorter.lefthandhandle);
         }
         if(sorter.animFunc.isItemAtHoldPos)

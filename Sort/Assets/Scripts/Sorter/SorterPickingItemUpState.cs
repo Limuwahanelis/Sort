@@ -12,7 +12,6 @@ public class SorterPickingItemUpState : SorterState
         
         this.itemToGrab = itemToGrab;
         SelectHandToGrab();
-        //sorter.lefthandItem = itemToGrab;
         sorter.animFunc.hashandAbove = false;
     }
     public override void Update()
@@ -42,8 +41,6 @@ public class SorterPickingItemUpState : SorterState
         }
         if(sorter.animFunc.isItemAtHoldPos)
         {
-            //itemToGrab.transform.SetParent(sorter.transform);
-            //itemToGrab.SetPositionTOFollow(null);
             sorter.animFunc.hashandAbove = false;
             sorter.animFunc.isItemAtHoldPos = false;
             sorter.ChangeState(new SorterIdleState(sorter));

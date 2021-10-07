@@ -18,9 +18,6 @@ public abstract class Sort
     public void Swap(int firstItemIndex,int secondItemIndex)
     {
         ItemToSort tmp = itemsToSort[firstItemIndex];
-        //Vector3 posTmp = itemsToSort[firstItemIndex].transform.position;
-        //itemsToSort[firstItemIndex].transform.position = itemsToSort[secondItemIndex].transform.position;
-        //itemsToSort[secondItemIndex].transform.position = posTmp;
         itemsToSort[firstItemIndex] = itemsToSort[secondItemIndex];
         itemsToSort[secondItemIndex] = tmp;
     }

@@ -55,7 +55,6 @@ public class QuickSortAlg : Sort
     int indexJ;
     int goNUM = 0;
     int itemDownNum=0;
-    //bool isd = false;
     public QuickSortAlg(List<ItemToSort> items, Sorter sorter) : base(items, sorter)
     {
         qSorts.Add(new qSortData(0, 0, 0, 0, false));
@@ -66,8 +65,6 @@ public class QuickSortAlg : Sort
         mainStep = STEP.SELECT_PIVOT;
         subStep = STEP.SELECT_PIVOT;
         canPerformNextStep = true;
-        //PerfromStep();
-        //qSort(0, itemsToSort.Count - 1);
     }
     public override void MoveToNextStep()
     {
@@ -263,9 +260,6 @@ public class QuickSortAlg : Sort
                                 subStep = STEP.GO_TO_LOCATION;
                                 goNUM = 1;
                                 break;
-                                //ChangePos(curRight, curLastItemPos);
-                                //SwapG(indexJ, curRight);
-                                //mainStep = STEP.SELECT_PARTITION;
                             }
                             else
                             {
@@ -303,7 +297,6 @@ public class QuickSortAlg : Sort
                                 canPerformNextStep = false;
                                 itemDownNum = 2;
                                 subStep = STEP.PUT_ITEM_DOWN;
-                                //goNUM = 0;
                             }
                             break;
                         }
@@ -321,7 +314,6 @@ public class QuickSortAlg : Sort
                         {
                             if(itemDownNum==1)
                             {
-                                //tmpPos = itemsToSort[indexJ].transform.position;
                                 sorter.ChangeState(new SorterPuttingItemDownState(sorter, itemsToSort[indexJ]));
                                 if(itemsToSort[indexJ]==curPivot) // in case
                                 {
@@ -355,30 +347,11 @@ public class QuickSortAlg : Sort
                         }
                         break;
                     }
-                //case STEP.INCREASE_INDEX:
-                //    {
-                //        indexI++;
-                //        if (indexI >= curRight)
-                //        {
-                //            ChangePos(curRight, curLastItemPos);
-                //            SwapG(indexJ, curRight);
-                //            mainStep = STEP.SELECT_PARTITION;
-                //        }
-                //        else
-                //        {
-                //            mainStep = STEP.COMPARE;
-                            
-                //        }
-                //        canPerformNextStep = false;
-                //        sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
-                //        break;
-                //    }
                 case STEP.SELECT_PARTITION:
                     {
                         int tmpleft = curLeft;
                         int tmpRight = curRight;
                         int tmpJ = indexJ;
-                        //qSorts.Add(new qSortData(iteration, curLeft, curRight,indexJ,true));
                         if (tmpleft < tmpJ - 1)
                         {
                             qSorts.Add(new qSortData(iteration, tmpleft, tmpRight, indexJ, true));
@@ -392,7 +365,6 @@ public class QuickSortAlg : Sort
                             break;
                         }
                         mainStep = STEP.SELECT_OTHER_PARTITION;
-                        //Move UP
                         break;
                     }
                 case STEP.MOVE_UP:
@@ -408,7 +380,6 @@ public class QuickSortAlg : Sort
                         {
                             mainStep = STEP.SELECT_OTHER_PARTITION;
                             canPerformNextStep = false;
-                            //sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
                         }
 
 
@@ -428,7 +399,6 @@ public class QuickSortAlg : Sort
                                 subStep = STEP.SELECT_PIVOT;
                                 goNUM = 0;
                                 canPerformNextStep = false;
-                                //sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
                                 break;
                             }
                             else
@@ -448,7 +418,6 @@ public class QuickSortAlg : Sort
                                 subStep = STEP.SELECT_PIVOT;
                                 goNUM = 0;
                                 canPerformNextStep = false;
-                                //sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
                                 break;
                             }
                             else
@@ -458,7 +427,6 @@ public class QuickSortAlg : Sort
                         }
                         mainStep = STEP.MOVE_UP;
                         canPerformNextStep = false;
-                        //sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
                         break;
                     }
             }
@@ -472,7 +440,6 @@ public class QuickSortAlg : Sort
         mainStep = STEP.SELECT_PIVOT;
         subStep = STEP.SELECT_PIVOT;
         canPerformNextStep = false;
-        //sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
     }
     private void makeNewQsortRight(int left, int right)
     {
@@ -482,105 +449,8 @@ public class QuickSortAlg : Sort
         mainStep = STEP.SELECT_PIVOT;
         subStep = STEP.SELECT_PIVOT;
         canPerformNextStep = false;
-        //sorter.StartCoroutine(sorter.WaitSomeTIme(timeTowait, () => { canPerformNextStep = true; }));
     }
 }
-//    public void qSort(int left,int right)
-//    {
-//        curLeft = left;
-//        curRight = right;
-//        Debug.Log("Start");
-//        Vector3 lastItemPos = itemsToSort[right].transform.position;
-//        int i, j;
-//        ItemToSort pivot;
-//        i = (left + right) / 2;
-//        indexI = i;
-        
-//        pivot = itemsToSort[i]; // push pivot forward 
-//        Vector3 tmpPos = pivot.transform.position;
-//        Swap(i, right); // place item at right at i - move item at right before pivot
-//        ChangePos(i, tmpPos);
-//        pivot.transform.position = new Vector3(pivot.transform.position.x, pivot.transform.position.y, pivot.transform.position.z + 0.5f);
-//        for (j = i = left; i < right; i++)
-//        {
-//            if (itemsToSort[i].value < pivot.value)
-//            {
-//                //Debug.Log("ch");
-//                SwapG(i, j); // swap items at i and j
-//                j++;
-//                //indexJ = j;
-//            }
-//        }
-
-//        //sorter.StartCoroutine(loopCor(left, right, pivot,lastItemPos));
-
-//        //yield return new WaitForSeconds(1f);
-//        ChangePos(right, lastItemPos);
-//        //yield return new WaitForSeconds(1f);
-//        SwapG(j, right);
-//        //yield return new WaitForSeconds(1f);
-//        Debug.Log("END");
-//        //Debug.Log(j);
-//        if (left < j - 1)
-//        {
-//            qSort(left, j - 1);
-//        }
-//        if (j + 1 < right)
-//        {
-//            qSort(j + 1, right);
-//        }
-
-//        //if (lewy < j - 1) Sortuj_szybko(lewy, j - 1);
-//        //if (j + 1 < prawy) Sortuj_szybko(j + 1, prawy);
-//    }
-    
-//    IEnumerator loopCor( int left, int right,ItemToSort pivot,Vector3 lastItemPos)
-//    {
-//        int i, j;
-//        for (j = i = left; i < right; i++)
-//        {
-//            if (itemsToSort[i].value < pivot.value)
-//            {
-//                yield return new WaitForSeconds(1f);
-//                //Debug.Log("ch");
-//                SwapG(i, j); // swap items at i and j
-//                j++;
-//            }
-//        }
-//        //yield return new WaitForSeconds(1f);
-//        ChangePos(right, lastItemPos);
-//        //yield return new WaitForSeconds(1f);
-//        SwapG(j, right);
-//        //yield return new WaitForSeconds(1f);
-//        Debug.Log("END");
-//        //Debug.Log(j);
-//        Sel(left, j, i, right);
-//        // Debug.Log("end");
-//        //d[prawy] = d[j]; d[j] = piwot; // zamien pivot z item na j
-
-//    }
-
-//    IEnumerator wwCor()
-//    {
-//        yield return new WaitForSeconds(1f);
-//    }
-
-//    public void Sel(int left,int j,int i,int right)
-//    {
-//        if (left < j - 1)
-//        {
-//            Debug.Log("Left");
-//            qSort(left, j - 1);
-//        }
-//        Debug.Log(j);
-//        if (j + 1 < right)
-//        {
-//            Debug.Log("Right");
-//            qSort(j + 1, right);
-//        }
-//    }
-//}
-
 //void Sortuj_szybko(int lewy, int prawy)
 //{
 //    int i, j, piwot;

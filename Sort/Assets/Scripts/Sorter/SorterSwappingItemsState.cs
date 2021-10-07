@@ -58,13 +58,6 @@ public class SorterSwappingItemsState : SorterState
             }
 
         }
-        //if (swappedItems)
-        //{
-        //    if (sorter.swappedLayers)
-        //    {
-
-        //    }
-        //}
 
     }
 }
