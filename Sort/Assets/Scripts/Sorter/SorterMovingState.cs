@@ -10,6 +10,13 @@ public class SorterMovingState : SorterState
     {
         sorter.isStandingAtTargetItem = false;
         this.targetPos = targetPos;
+        if (Mathf.Abs(Mathf.Abs(sorter.transform.position.x) - Mathf.Abs(targetPos.x)) < 0.05)
+        {
+            sorter.transform.position = new Vector3(targetPos.x, sorter.transform.position.y, sorter.transform.position.z);
+            sorter.isStandingAtTargetItem = true;
+
+            sorter.ChangeState(new SorterIdleState(sorter));
+        }
         if (targetPos.x > sorter.transform.position.x)
         {
             direction = 1f;
@@ -39,9 +46,6 @@ public class SorterMovingState : SorterState
             {
                 sorter.sortingAlgorithm.MoveToNextStep();
             }));
-            
-            
-            Debug.Log("arrived");
             
         }
     }
