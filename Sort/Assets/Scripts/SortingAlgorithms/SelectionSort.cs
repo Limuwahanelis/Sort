@@ -66,15 +66,11 @@ public class SelectionSort : Sort
                     {
                         if(itemsToSort[indexI].value<itemsToSort[indexJ].value)
                         {
-                            //indexMin = indexI;
-                            //pick indexi
                             tmpPos = itemsToSort[indexI].transform.position;
                             sorter.ChangeState(new SorterPickingItemUpState(sorter, itemsToSort[indexI]));
                             currentStep = STEP.GO_TO_LOCATION;
                             goNUM = 2;
                             canPerformNextStep = false;
-                            //go to index j
-                            // swap
                         }
                         else
                         {
@@ -115,6 +111,11 @@ public class SelectionSort : Sort
                         {
                             indexJ++;
                             indexI = indexJ + 1;
+                        }
+                        if(indexJ>=itemsToSort.Count-1)
+                        {
+                            canPerformNextStep = false;
+                            break;
                         }
                         currentStep = STEP.GO_TO_LOCATION;
                         goNUM = 1;

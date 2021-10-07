@@ -37,6 +37,8 @@ public class SorterPuttingItemDownState : SorterState
         }
        if(sorter.swappedLayers)
         {
+            sorter.ChangeState(new SorterIdleState(sorter));
+            sorter.swappedLayers = false;
             sorter.sortingAlgorithm.MoveToNextStep();
         }
     }

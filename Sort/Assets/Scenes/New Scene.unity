@@ -873,8 +873,19 @@ MonoBehaviour:
   - {fileID: 8163334909747481324, guid: 68243931911edc14dacc8e47836024a4, type: 3}
   - {fileID: 8163334909747481324, guid: bc65aa5de3183bd47be60ac13293b63b, type: 3}
   - {fileID: 8163334909747481324, guid: f903e9ee0fd5d6b4e931e8d83ef91991, type: 3}
+  itemsToSpawnSelectedPrefabs:
+  - {fileID: 8163334909747481324, guid: 1f9cdd85094890c4bbe85fd084f06ce1, type: 3}
+  - {fileID: 8163334909747481324, guid: 1f9cdd85094890c4bbe85fd084f06ce1, type: 3}
+  - {fileID: 8163334909747481324, guid: 1f9cdd85094890c4bbe85fd084f06ce1, type: 3}
+  - {fileID: 404291969121065225, guid: 608c4418294102347939615119adc536, type: 3}
+  - {fileID: 8163334909747481324, guid: bc65aa5de3183bd47be60ac13293b63b, type: 3}
+  - {fileID: 8163334909747481324, guid: 1f9cdd85094890c4bbe85fd084f06ce1, type: 3}
+  - {fileID: 8163334909747481324, guid: 50f3499a057b6f64186d94dab9ed7dd3, type: 3}
+  - {fileID: 8163334909747481324, guid: 028e9e65f2fe1ab4f881047ef7958373, type: 3}
+  - {fileID: 8163334909747481324, guid: f903e9ee0fd5d6b4e931e8d83ef91991, type: 3}
+  - {fileID: 8163334909747481324, guid: f903e9ee0fd5d6b4e931e8d83ef91991, type: 3}
   distanceBetweenItems: 0.5
-  numberOfSpawnedItems: 5
+  numberOfSpawnedItems: 10
   sorter: {fileID: 531764766}
 --- !u!4 &1841089003
 Transform:

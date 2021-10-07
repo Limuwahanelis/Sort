@@ -38,11 +38,12 @@ public class SorterMovingState : SorterState
             sorter.isStandingAtTargetItem = true;
             
             sorter.ChangeState(new SorterIdleState(sorter));
-            sorter.StartCoroutine(sorter.WaitSomeTIme(1f, () =>
-            {
-                sorter.sortingAlgorithm.MoveToNextStep();
-            }));
-            
+            sorter.sortingAlgorithm.MoveToNextStep();
+            //sorter.StartCoroutine(sorter.WaitSomeTIme(1f, () =>
+            //{
+            //    sorter.sortingAlgorithm.MoveToNextStep();
+            //}));
+
         }
     }
 }

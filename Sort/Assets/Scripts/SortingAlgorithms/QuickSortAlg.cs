@@ -19,7 +19,7 @@ public class QuickSortAlg : Sort
         INCREASE_INDEX,
         SELECT_PARTITION,
         MOVE_UP,
-        SELECT_OTHER_PARTITION
+        SELECT_OTHER_PARTITION,
 
     }
     class qSortData
@@ -379,7 +379,7 @@ public class QuickSortAlg : Sort
                         else
                         {
                             mainStep = STEP.SELECT_OTHER_PARTITION;
-                            canPerformNextStep = false;
+                            canPerformNextStep = true;
                         }
 
 
@@ -398,7 +398,7 @@ public class QuickSortAlg : Sort
                                 mainStep = STEP.SELECT_PIVOT;
                                 subStep = STEP.SELECT_PIVOT;
                                 goNUM = 0;
-                                canPerformNextStep = false;
+                                canPerformNextStep = true;
                                 break;
                             }
                             else
@@ -417,7 +417,7 @@ public class QuickSortAlg : Sort
                                 mainStep = STEP.SELECT_PIVOT;
                                 subStep = STEP.SELECT_PIVOT;
                                 goNUM = 0;
-                                canPerformNextStep = false;
+                                canPerformNextStep = true;
                                 break;
                             }
                             else
@@ -426,7 +426,7 @@ public class QuickSortAlg : Sort
                             }
                         }
                         mainStep = STEP.MOVE_UP;
-                        canPerformNextStep = false;
+                        canPerformNextStep = true;
                         break;
                     }
             }
@@ -439,7 +439,7 @@ public class QuickSortAlg : Sort
         iteration++;
         mainStep = STEP.SELECT_PIVOT;
         subStep = STEP.SELECT_PIVOT;
-        canPerformNextStep = false;
+        canPerformNextStep = true;
     }
     private void makeNewQsortRight(int left, int right)
     {
@@ -448,7 +448,7 @@ public class QuickSortAlg : Sort
         iteration++;
         mainStep = STEP.SELECT_PIVOT;
         subStep = STEP.SELECT_PIVOT;
-        canPerformNextStep = false;
+        canPerformNextStep = true;
     }
 }
 //void Sortuj_szybko(int lewy, int prawy)

@@ -36,9 +36,9 @@ public class Sorter : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Y))
         {
-            //sortingAlgorithm = new BubbleSort2(itemsToSort, this);
+            sortingAlgorithm = new BubbleSort3(itemsToSort, this);
             //sortingAlgorithm = new QuickSortAlg(itemsToSort, this);
-            sortingAlgorithm = new SelectionSort(itemsToSort, this);
+            //sortingAlgorithm = new SelectionSort(itemsToSort, this);
             sortingAlgorithm.PerfromStep();
         }
         if(Input.GetKeyDown(KeyCode.A))
