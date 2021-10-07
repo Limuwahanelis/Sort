@@ -9,8 +9,9 @@ public class SorterPickingItemUpState : SorterState
     ItemToSort itemToGrab;
     public SorterPickingItemUpState(Sorter sorter,ItemToSort itemToGrab):base(sorter)
     {
-        SelectHandToGrab();
+        
         this.itemToGrab = itemToGrab;
+        SelectHandToGrab();
         //sorter.lefthandItem = itemToGrab;
         sorter.animFunc.hashandAbove = false;
     }
@@ -19,8 +20,8 @@ public class SorterPickingItemUpState : SorterState
         if (sorter.swappedLayers)
         {
             {
-                if(_isGrabbingWithLeftHand) sorter.anim.SetTrigger("Grab Left Hand");
-                else sorter.anim.SetTrigger("Grab Right Hand");
+                if(_isGrabbingWithLeftHand) sorter.anim.SetBool("Grab Left Hand",true);
+                else sorter.anim.SetBool("Grab Right Hand",true);
                 sorter.swappedLayers = false;
             }
         }
@@ -44,7 +45,7 @@ public class SorterPickingItemUpState : SorterState
             //itemToGrab.transform.SetParent(sorter.transform);
             //itemToGrab.SetPositionTOFollow(null);
             sorter.animFunc.hashandAbove = false;
-
+            sorter.animFunc.isItemAtHoldPos = false;
             sorter.ChangeState(new SorterIdleState(sorter));
             sorter.sortingAlgorithm.MoveToNextStep();
         }

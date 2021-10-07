@@ -25,7 +25,8 @@ public class SorterMovingState : SorterState
     {
         if(Mathf.Abs( Mathf.Abs(sorter.transform.position.x)-Mathf.Abs(targetPos.x))>0.05 )
         {
-            sorter.transform.Translate(sorter.transform.right * direction * sorter.movementSpeed * Time.deltaTime);
+           sorter.transform.position= Vector3.MoveTowards(sorter.transform.position, targetPos,Time.deltaTime*sorter.movementSpeed);
+            //sorter.transform.Translate(sorter.transform.right * direction * sorter.movementSpeed * Time.deltaTime);
         }
         else
         {

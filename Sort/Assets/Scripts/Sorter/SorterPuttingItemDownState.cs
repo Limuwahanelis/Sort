@@ -4,23 +4,36 @@ using UnityEngine;
 
 public class SorterPuttingItemDownState : SorterState
 {
-    ItemToSort item;
-    bool isUsingLeftHand;
+    ItemToSort _item;
+    bool _isUsingLeftHand;
     public SorterPuttingItemDownState(Sorter sorter,ItemToSort itemToPutDown):base(sorter)
     {
+        
+        _item = itemToPutDown;
         SelectHandHoldingItem();
-        item = itemToPutDown;
         sorter.swappedLayers = false;
-        sorter.anim.SetTrigger("Put Item Down");
+        
     }
     public override void Update()
     {
        if(sorter.animFunc.hashandAbove)
         {
-            sorter.lefthandItem.transform.position = sorter.inFrontPos.position;
-            sorter.lefthandItem.SetPositionTOFollow(null);
-            sorter.StartCoroutine(sorter.SwapAnimatorWeighs(4, 1));
-
+            if(_isUsingLeftHand)
+            {
+                sorter.lefthandItem.transform.position = sorter.inFrontPos.position;
+                sorter.lefthandItem.SetPositionTOFollow(null);
+                sorter.lefthandItem = null;
+                sorter.StartCoroutine(sorter.SwapAnimatorWeighs(4, 1));
+            }
+            else
+            {
+                sorter.righthandItem.transform.position = sorter.inFrontPos.position;
+                sorter.righthandItem.SetPositionTOFollow(null);
+                sorter.righthandItem = null;
+                sorter.StartCoroutine(sorter.SwapAnimatorWeighs(5, 1));
+            }
+            sorter.animFunc.isItemAtHoldPos = false;
+            sorter.animFunc.hashandAbove = false;
         }
        if(sorter.swappedLayers)
         {
@@ -30,13 +43,15 @@ public class SorterPuttingItemDownState : SorterState
 
     void SelectHandHoldingItem()
     {
-        if(sorter.lefthandItem==item)
+        if(sorter.lefthandItem==_item)
         {
-            isUsingLeftHand = true;
+            _isUsingLeftHand = true;
+            sorter.anim.SetBool("Grab Left Hand", false);
         }
         else
         {
-            isUsingLeftHand = false;
+            _isUsingLeftHand = false;
+            sorter.anim.SetBool("Grab Right Hand", false);
         }
     }
 }
