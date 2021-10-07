@@ -15,6 +15,7 @@ public class SorterPushingState : SorterState
         if (sorter.swappedLayers)
         {
             {
+                sorter.anim.SetTrigger("Push Left Hand");
                 sorter.anim.SetTrigger("Raise Left Hand");
                 sorter.swappedLayers = false;
             }
@@ -22,6 +23,7 @@ public class SorterPushingState : SorterState
         }
         if (sorter.animFunc.hashandAbove)
         {
+            
             if (itemToPush.transform.position.z < sorter.itemPushedPos.position.z)
             {
                 Vector3 newpos = new Vector3(itemToPush.transform.position.x, itemToPush.transform.position.y, itemToPush.transform.position.z + sorter.pushSpeed * Time.deltaTime);

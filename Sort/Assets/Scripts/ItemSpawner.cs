@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemSpawner : MonoBehaviour
 {
     public List<GameObject> itemsToSpawnPrefabs = new List<GameObject>();
+    public List<GameObject> itemsToSpawnSelectedPrefabs = new List<GameObject>();
     public float distanceBetweenItems;
     public float numberOfSpawnedItems;
     public Sorter sorter;
@@ -19,6 +20,10 @@ public class ItemSpawner : MonoBehaviour
         {
             SpawnItems();
         }
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            Selected();
+        }
     }
 
     public void SpawnItems()
@@ -31,6 +36,17 @@ public class ItemSpawner : MonoBehaviour
             sorter.AddItem(newItem.GetComponent<ItemToSort>());
         }
         
+    }
+
+    public void Selected()
+    {
+        for (int i = 0; i < itemsToSpawnSelectedPrefabs.Count; i++)
+        {
+            GameObject item = itemsToSpawnSelectedPrefabs[i];
+            Vector3 pos = new Vector3(-2 - i * distanceBetweenItems, 1.125f, -0.5f);
+            GameObject newItem = Instantiate(item, pos, item.transform.rotation);
+            sorter.AddItem(newItem.GetComponent<ItemToSort>());
+        }
     }
 
 

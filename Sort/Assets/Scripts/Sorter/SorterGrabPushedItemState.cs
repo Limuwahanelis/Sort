@@ -22,13 +22,18 @@ public class SorterGrabPushedItemState : SorterState
             }
 
         }
+        if(sorter.animFunc.hashandAbove)
+        {
+            sorter.anim.SetBool("Grab Left Hand", true);
+        }
         if (sorter.animFunc.hasHandAbovePushedItem)
         {
+            //sorter.anim.SetBool("Grab Left Hand", true);
             itemToGrab.SetPositionTOFollow(sorter.lefthandhandle);
-            sorter.anim.SetBool("Grab Left Hand", true);
         }
         if(sorter.animFunc.isItemAtHoldPos)
         {
+            
             sorter.animFunc.hashandAbove = false;
             sorter.lefthandItem = itemToGrab;
             sorter.ChangeState(new SorterIdleState(sorter));
