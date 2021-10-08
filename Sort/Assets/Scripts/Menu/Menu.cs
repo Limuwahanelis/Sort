@@ -5,8 +5,8 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
-    public Algg selectedAlgorithm;
-    public List<Algg> algorithms;
+    public Algorithm selectedAlgorithm;
+    public List<Algorithm> algorithms;
     List<string> _dropdownOptions=new List<string>();
     public TMP_Dropdown algortihmSelectionDropdown;
     public TMP_InputField inputField;

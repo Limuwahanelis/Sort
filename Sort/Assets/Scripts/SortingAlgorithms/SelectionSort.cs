@@ -80,6 +80,7 @@ public class SelectionSort : Sort
                         if(indexJ>=itemsToSort.Count-1)
                         {
                             canPerformNextStep = false;
+                            MarkItemsAsSorted();
                             break;
                         }
                         mainStep = STEP.GO_TO_LOCATION;

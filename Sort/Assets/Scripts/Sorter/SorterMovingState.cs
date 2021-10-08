@@ -18,7 +18,7 @@ public class SorterMovingState : SorterState
         }
         else
         {
-            if (targetPos.x > sorter.transform.position.x)
+            if (targetPos.x < sorter.transform.position.x)
             {
                 sorter.anim.SetBool("Move Right", true);
             }

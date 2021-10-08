@@ -40,16 +40,17 @@ public class QuickSortAlg : Sort
         }
 
     }
+    List<qSortData> qSorts = new List<qSortData>();
+    STEP mainStep;
+    STEP subStep;
+    ItemToSort curPivot;
     Vector3 newLoc;
-    List<qSortData> qSorts= new List<qSortData>();
+    Vector3 curLastItemPos;
+    Vector3 tmpPos;
+    
     int iteration;
     int curLeft;
     int curRight;
-    Vector3 curLastItemPos;
-    Vector3 tmpPos;
-    ItemToSort curPivot;
-    STEP mainStep;
-    STEP subStep;
     int indexI;
     int indexJ;
     int itemDownNum=0;
@@ -245,7 +246,7 @@ public class QuickSortAlg : Sort
                         }
                         if (subStep == STEP.PICK_ITEM_UP)
                         {
-                            tmpPos = itemsToSort[indexJ].transform.position;// store indexJ pos
+                            tmpPos = itemsToSort[indexJ].transform.position;
                             if(itemsToSort[indexJ]==curPivot) sorter.ChangeState(new SorterGrabPushedItemState(sorter, curPivot));
                             else sorter.ChangeState(new SorterPickingItemUpState(sorter, itemsToSort[indexJ]));
                             canPerformNextStep = false;
@@ -317,7 +318,7 @@ public class QuickSortAlg : Sort
                         iteration--;
                         if (iteration <= 1)
                         {
-                            Debug.Log("end");
+                            MarkItemsAsSorted();
                             canPerformNextStep = false;
                         }
                         else

@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class Sorter : MonoBehaviour
 {
-    public Algg selectedAlgorithm;
+    public BoolReference areItemsSorted;
+    public Algorithm selectedAlgorithm;
     public SorterAnimationFunctions animFunc;
-    public Transform itemPushedPos;
     public ItemToSort lefthandItem;
     public ItemToSort righthandItem;
+    public Transform itemPushedPos;
     public Transform rightHandHandle;
     public Transform lefthandhandle;
     public Transform inFrontPos;
     public Animator anim;
+    public Sort sortingAlgorithm;
     public float movementSpeed;
     public float layerSwapSpeed;
     public bool isPushingItem=false;
     public bool swappedItems = false;
     public bool swappedLayers;
     public bool isStandingAtTargetItem=false;
-    public Sort sortingAlgorithm;
     [SerializeField]
     List<ItemToSort> itemsToSort = new List<ItemToSort>();
     private SorterState state;
@@ -28,6 +29,7 @@ public class Sorter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        areItemsSorted.value = false;
         state = new SorterIdleState(this);
     }
 

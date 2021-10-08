@@ -14,23 +14,27 @@ public abstract class Sort
     public bool canPerformNextStep;
     protected Sorter sorter;
     protected SWAP_STEP swapSubStep;
-    Vector3 tmpPos;
     protected int goNUM = 0;
     protected int itemsPickedUp = 0;
     protected int itemsPutDown = 0;
+    Vector3 tmpPos;
+
     public Sort(List<ItemToSort> items,Sorter sorter)
     {
         itemsToSort = items;
         this.sorter = sorter;
     }
-
-    public void Swap(int firstItemIndex,int secondItemIndex)
+    protected void MarkItemsAsSorted()
+    {
+        sorter.areItemsSorted.value = true;
+    }
+    protected void Swap(int firstItemIndex,int secondItemIndex)
     {
         ItemToSort tmp = itemsToSort[firstItemIndex];
         itemsToSort[firstItemIndex] = itemsToSort[secondItemIndex];
         itemsToSort[secondItemIndex] = tmp;
     }
-    public void ChangePos(int firstItemIndex,Vector3 newPos)
+    protected void ChangePos(int firstItemIndex,Vector3 newPos)
     {
         itemsToSort[firstItemIndex].transform.position=newPos;
     }
@@ -98,10 +102,7 @@ public abstract class Sort
         }
         return;
     }
-    public abstract void EndSwapStep();
-    
-    public virtual void MoveToNextStep() { }
-    public abstract void PerfromStep();
+
     protected void MoveToNewPos(ItemToSort item)
     {
         sorter.ChangeState(new SorterMovingState(sorter, new Vector3(item.transform.position.x, sorter.transform.position.y, sorter.transform.position.z)));
@@ -120,4 +121,8 @@ public abstract class Sort
         sorter.ChangeState(new SorterPuttingItemDownState(sorter, item));
         canPerformNextStep = false;
     }
+    
+    public virtual void MoveToNextStep() { }
+    public abstract void EndSwapStep();
+    public abstract void PerfromStep();
 }

@@ -13,12 +13,11 @@ public class BubbleSort3 : Sort
         PICK_ITEM_UP,
         PUT_ITEM_DOWN
     }
+
     STEP currentStep;
     int indexI = 0;
     int indexJ;
-    //int goNUM = 0;
-    //int itemsPickedUp = 0;
-    //int itemsPutDown = 0;
+
     public BubbleSort3(List<ItemToSort> items, Sorter sorter) : base(items, sorter)
     {
         indexJ = itemsToSort.Count - 1;
@@ -26,6 +25,7 @@ public class BubbleSort3 : Sort
         currentStep = STEP.GO_TO_LOCATION;
         goNUM = 1;
     }
+
     public override void MoveToNextStep()
     {
         canPerformNextStep = true;
@@ -75,6 +75,7 @@ public class BubbleSort3 : Sort
                         }
                         if (indexJ <= 0)
                         {
+                            MarkItemsAsSorted();
                             canPerformNextStep = false;
                         }
                         break;
