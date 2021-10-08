@@ -28,12 +28,6 @@ public class BubbleSort3 : Sort
         currentStep = STEP.GO_TO_LOCATION;
         goNUM = 1;
     }
-    public void GoBetweenItems(int itemIndex)
-    {
-        canPerformNextStep = false;
-        Vector3 newPos = new Vector3((itemsToSort[itemIndex + 1].transform.position.x + itemsToSort[itemIndex].transform.position.x) / 2, sorter.transform.position.y, sorter.transform.position.z);
-        sorter.ChangeState(new SorterMovingState(sorter, newPos));
-    }
     void MoveToNewPos(ItemToSort item)
     {
         sorter.ChangeState(new SorterMovingState(sorter, new Vector3(item.transform.position.x, sorter.transform.position.y, sorter.transform.position.z)));
@@ -162,11 +156,5 @@ public class BubbleSort3 : Sort
     {
         sorter.ChangeState(new SorterPuttingItemDownState(sorter, item));
         canPerformNextStep = false;
-    }
-    public void SwapItems()
-    {
-        canPerformNextStep = false;
-        sorter.SetItemsTohands(itemsToSort[indexI + 1], itemsToSort[indexI]);
-        Swap(indexI, indexI + 1);
     }
 }

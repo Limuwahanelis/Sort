@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Sorter : MonoBehaviour
 {
+    bool _isActive = false;
     public SorterAnimationFunctions animFunc;
     public Transform itemPushedPos;
     public float layerSwapSpeed;
@@ -34,22 +35,13 @@ public class Sorter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Y))
+        if (_isActive)
         {
-            sortingAlgorithm = new BubbleSort3(itemsToSort, this);
-            //sortingAlgorithm = new QuickSortAlg(itemsToSort, this);
-            //sortingAlgorithm = new SelectionSort(itemsToSort, this);
-            sortingAlgorithm.PerfromStep();
-        }
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            state = new SorterSwappingItemsState(this,righthandItem.transform.position,lefthandItem.transform.position);
-        }
-        state.Update();
-        if(sortingAlgorithm!=null)
-        {
-
-        sortingAlgorithm.PerfromStep();
+            state.Update();
+            if (sortingAlgorithm != null)
+            {
+                sortingAlgorithm.PerfromStep();
+            }
         }
     }
 
@@ -61,14 +53,6 @@ public class Sorter : MonoBehaviour
     public void ChangeState(SorterState newState)
     {
         state = newState;
-    }
-
-    public void SetItemsTohands(ItemToSort leftHandItem, ItemToSort rightHandItem)
-    {
-        this.lefthandItem = leftHandItem;
-        this.righthandItem = rightHandItem;
-        state = new SorterSwappingItemsState(this, rightHandItem.transform.position, lefthandItem.transform.position);
-
     }
 
     public void MoveLefthandItem(Vector3 newPos)
@@ -100,6 +84,51 @@ public class Sorter : MonoBehaviour
         anim.SetLayerWeight(layerToIncreaseWeight, 1);
         anim.SetLayerWeight(layerToReduceWeight, 0);
         swappedLayers = true;
+    }
+    public IEnumerator SwapAnimatorWeighs(int layerToReduceWeight, int layerToIncreaseWeight,System.Action function)
+    {
+        swappedLayers = false;
+        while (anim.GetLayerWeight(layerToIncreaseWeight) < 1)
+        {
+            yield return null;
+            float weight1 = anim.GetLayerWeight(layerToIncreaseWeight);
+            float weight2 = anim.GetLayerWeight(layerToReduceWeight);
+            float value = layerSwapSpeed * Time.deltaTime;
+            anim.SetLayerWeight(layerToIncreaseWeight, weight1 + value);
+            anim.SetLayerWeight(layerToReduceWeight, weight2 - value);
+        }
+        anim.SetLayerWeight(layerToIncreaseWeight, 1);
+        anim.SetLayerWeight(layerToReduceWeight, 0);
+        swappedLayers = true;
+        function();
+    }
+
+    public IEnumerator LowerAnimationWeight(int layerToReduceWeight)
+    {
+        swappedLayers = false;
+        while (anim.GetLayerWeight(layerToReduceWeight) > 0)
+        {
+            yield return null;
+            float weight2 = anim.GetLayerWeight(layerToReduceWeight);
+            float value = layerSwapSpeed * Time.deltaTime;
+            anim.SetLayerWeight(layerToReduceWeight, weight2 - value);
+        }
+        anim.SetLayerWeight(layerToReduceWeight, 0);
+        swappedLayers = true;
+    }
+
+    public void MakeActive(Algg algorithm)
+    {
+
+        _isActive = true;
+        switch(algorithm.algorithm)
+        {
+            case Enums.Algorithms.BUBBLE_SORT:sortingAlgorithm = new BubbleSort3(itemsToSort, this);break;
+            case Enums.Algorithms.SELECTION_SORT: sortingAlgorithm = new SelectionSort(itemsToSort, this); break;
+            case Enums.Algorithms.QUICK_SORT: sortingAlgorithm = new QuickSortAlg(itemsToSort, this); break;
+        }
+        //if(algorithm.algorithm==Enums.Algorithms.BUBBLE_SORT) sortingAlgorithm=new BubbleSort3()
+
     }
 
 

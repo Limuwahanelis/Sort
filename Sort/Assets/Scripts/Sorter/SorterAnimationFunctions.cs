@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SorterAnimationFunctions : MonoBehaviour
 {
+    public bool isHandback = false;
     public bool hashandAbove = false;
     public bool isItemAtHoldPos = false;
     public bool isSwappingItems;
@@ -26,5 +27,9 @@ public class SorterAnimationFunctions : MonoBehaviour
     public void HandAbovePushed()
     {
         hasHandAbovePushedItem = true;
+    }
+    public void SetHandBack()
+    {
+        isHandback = true;
     }
 }

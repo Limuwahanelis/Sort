@@ -16,13 +16,16 @@ public class SorterMovingState : SorterState
 
             sorter.ChangeState(new SorterIdleState(sorter));
         }
-        if (targetPos.x > sorter.transform.position.x)
-        {
-            sorter.anim.SetBool("Move Right", true);
-        }
         else
         {
-            sorter.anim.SetBool("Move Left", true);
+            if (targetPos.x > sorter.transform.position.x)
+            {
+                sorter.anim.SetBool("Move Right", true);
+            }
+            else
+            {
+                sorter.anim.SetBool("Move Left", true);
+            }
         }
     }
     public override void Update()

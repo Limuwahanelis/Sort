@@ -7,7 +7,7 @@ public class ItemSpawner : MonoBehaviour
     public List<GameObject> itemsToSpawnPrefabs = new List<GameObject>();
     public List<GameObject> itemsToSpawnSelectedPrefabs = new List<GameObject>();
     public float distanceBetweenItems;
-    public float numberOfSpawnedItems;
+    public IntReference numberOfSpawnedItems;
     public Sorter sorter;
     private void Start()
     {
@@ -28,7 +28,7 @@ public class ItemSpawner : MonoBehaviour
 
     public void SpawnItems()
     {
-        for(int i=0;i<numberOfSpawnedItems;i++)
+        for(int i=0;i<numberOfSpawnedItems.value;i++)
         {
             GameObject item = itemsToSpawnPrefabs[Random.Range(0, itemsToSpawnPrefabs.Count)];
             Vector3 pos = new Vector3(-2 -i * distanceBetweenItems, 1.125f, -0.5f);

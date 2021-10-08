@@ -303,7 +303,8 @@ public class QuickSortAlg : Sort
                         if (subStep == STEP.PICK_ITEM_UP)
                         {
                             tmpPos = itemsToSort[indexJ].transform.position;// store indexJ pos
-                            sorter.ChangeState(new SorterPickingItemUpState(sorter, itemsToSort[indexJ]));
+                            if(itemsToSort[indexJ]==curPivot) sorter.ChangeState(new SorterGrabPushedItemState(sorter, curPivot));
+                            else sorter.ChangeState(new SorterPickingItemUpState(sorter, itemsToSort[indexJ]));
                             canPerformNextStep = false;
                             subStep = STEP.GO_TO_LOCATION;
                             goNUM=2;
