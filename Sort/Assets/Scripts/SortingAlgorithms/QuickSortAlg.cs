@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class QuickSortAlg : Sort
 {
-    float timeTowait = 0.0f;
     enum STEP
     {
         SELECT_PIVOT,

@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class Sorter : MonoBehaviour
 {
-    bool _isActive = false;
+    public Algg selectedAlgorithm;
     public SorterAnimationFunctions animFunc;
     public Transform itemPushedPos;
-    public float layerSwapSpeed;
-    public bool isPushingItem=false;
-    public bool swappedItems = false;
-    public bool swappedLayers;
-    public float swapSpeed;
-    public float pushSpeed;
     public ItemToSort lefthandItem;
     public ItemToSort righthandItem;
     public Transform rightHandHandle;
@@ -20,12 +14,17 @@ public class Sorter : MonoBehaviour
     public Transform inFrontPos;
     public Animator anim;
     public float movementSpeed;
+    public float layerSwapSpeed;
+    public bool isPushingItem=false;
+    public bool swappedItems = false;
+    public bool swappedLayers;
     public bool isStandingAtTargetItem=false;
+    public Sort sortingAlgorithm;
     [SerializeField]
     List<ItemToSort> itemsToSort = new List<ItemToSort>();
-    public Sort sortingAlgorithm;
     private SorterState state;
-    
+    bool _isActive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -117,11 +116,11 @@ public class Sorter : MonoBehaviour
         swappedLayers = true;
     }
 
-    public void MakeActive(Algg algorithm)
+    public void MakeActive()
     {
 
         _isActive = true;
-        switch(algorithm.algorithm)
+        switch(selectedAlgorithm.algorithm)
         {
             case Enums.Algorithms.BUBBLE_SORT:sortingAlgorithm = new BubbleSort3(itemsToSort, this);break;
             case Enums.Algorithms.SELECTION_SORT: sortingAlgorithm = new SelectionSort(itemsToSort, this); break;

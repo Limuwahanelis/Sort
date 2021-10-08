@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System;
+using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
-    public Sorter sorter;
-    public ItemSpawner spawner;
-    public GameObject panel;
+    public Algg selectedAlgorithm;
     public List<Algg> algorithms;
     List<string> _dropdownOptions=new List<string>();
     public TMP_Dropdown algortihmSelectionDropdown;
@@ -36,14 +34,14 @@ public class Menu : MonoBehaviour
     public void SetSortingAlgorithm(int sortingAlgorithmIndex)
     {
         _algorithmIndex = sortingAlgorithmIndex;
+        
     }
 
     public void Confirm()
     {
-        panel.SetActive(false);
-        spawner.SpawnItems();
-        sorter.MakeActive(algorithms[_algorithmIndex]);
-        this.gameObject.SetActive(false);
+        //spawner.SpawnItems();
+        selectedAlgorithm = algorithms[_algorithmIndex];
+        SceneManager.LoadScene(1);
     }
 
     public void ChangeNumberOfItems(string value)
@@ -56,8 +54,20 @@ public class Menu : MonoBehaviour
     {
         if (value == "") return;
         int parsedvalue = int.Parse(value);
-        parsedvalue= Mathf.Clamp(parsedvalue, 2, 30);
+        parsedvalue= Mathf.Clamp(parsedvalue, 1, 30);
 
         inputField.text = parsedvalue.ToString();
+    }
+    public void CheckValue2(string value)
+    {
+        if (value == "") return;
+        int parsedvalue = int.Parse(value);
+        parsedvalue = Mathf.Clamp(parsedvalue, 2, 30);
+
+        inputField.text = parsedvalue.ToString();
+    }
+    public void Exit()
+    {
+        Application.Quit();
     }
 }

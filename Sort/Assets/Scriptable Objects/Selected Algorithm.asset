@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15527de79c508464aa2c8e6e5c6caeba, type: 3}
-  m_Name: Number of spawend items
+  m_Script: {fileID: 11500000, guid: 096bbd10782d3f24c826befc3f6a0fbf, type: 3}
+  m_Name: Selected Algorithm
   m_EditorClassIdentifier: 
-  value: 8
+  algorithm: 2
