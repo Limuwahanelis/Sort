@@ -52,8 +52,10 @@ public class QuickSortAlg : Sort
     STEP subStep;
     int indexI;
     int indexJ;
-    int goNUM = 0;
     int itemDownNum=0;
+
+    //int itemsPickedUp = 0;
+    //int itemsPutDown = 0;
     public QuickSortAlg(List<ItemToSort> items, Sorter sorter) : base(items, sorter)
     {
         qSorts.Add(new qSortData(0, 0, 0, 0, false));
@@ -69,14 +71,6 @@ public class QuickSortAlg : Sort
     {
         canPerformNextStep = true;
         
-    }
-    void MoveToNewPos(ItemToSort item)
-    {
-        sorter.ChangeState(new SorterMovingState(sorter,new Vector3( item.transform.position.x, sorter.transform.position.y, sorter.transform.position.z)));
-    }
-    void MoveToNewPos(Vector3 itemPos)
-    {
-        sorter.ChangeState(new SorterMovingState(sorter, new Vector3(itemPos.x, sorter.transform.position.y, sorter.transform.position.z)));
     }
     public override void PerfromStep()
     {
@@ -161,7 +155,10 @@ public class QuickSortAlg : Sort
                         {
                             if (itemsToSort[indexI].value < curPivot.value)
                             {
-                                subStep = STEP.PICK_ITEM_UP;
+                                mainStep = STEP.SWAP;
+                                swapSubStep = SWAP_STEP.GO_TO_LOCATION;
+                                itemsPickedUp = 1;
+                                goNUM = 1;
                                 if (indexI==indexJ)
                                 {
                                     mainStep = STEP.INCREASE_INDEX;
@@ -188,64 +185,11 @@ public class QuickSortAlg : Sort
                                 break;
                             }
                         }
-                        if(subStep== STEP.PICK_ITEM_UP)
-                        {
-                            tmpPos = itemsToSort[indexI].transform.position; // store index i position
-                            sorter.ChangeState(new SorterPickingItemUpState(sorter, itemsToSort[indexI]));
-                            canPerformNextStep = false;
-                            mainStep = STEP.SWAP;
-                            subStep = STEP.GO_TO_LOCATION;
-                            goNUM = 0;
-                            break;
-                        }
                         break;
                     }
                 case STEP.SWAP:
                     {
-                        if(subStep==STEP.PICK_ITEM_UP)
-                        {
-                            sorter.ChangeState(new SorterPickingItemUpState(sorter, itemsToSort[indexJ]));
-                            canPerformNextStep = false;
-                            subStep = STEP.SWAP;
-                            break;
-                        }
-                        if(subStep==STEP.GO_TO_LOCATION)
-                        {
-                            if (goNUM == 0)
-                            {
-                                MoveToNewPos(itemsToSort[indexJ]);
-                                canPerformNextStep = false;
-                                subStep = STEP.PICK_ITEM_UP;
-                            }
-                            if(goNUM==1)
-                            {
-                                MoveToNewPos(tmpPos); 
-                                subStep = STEP.PUT_ITEM_DOWN;
-                                canPerformNextStep = false;
-                                
-                            }
-                            break;
-                        }
-                        if(subStep==STEP.SWAP)
-                        {
-                            sorter.ChangeState(new SorterPuttingItemDownState(sorter, itemsToSort[indexI]));
-                            subStep = STEP.GO_TO_LOCATION;
-                            goNUM = 1;
-                            canPerformNextStep = false;
-                            break;
-
-                        }
-                        if(subStep==STEP.PUT_ITEM_DOWN)
-                        {
-                            sorter.ChangeState(new SorterPuttingItemDownState(sorter, itemsToSort[indexJ]));
-                            Swap(indexI, indexJ);
-                            indexJ++;
-                            canPerformNextStep = false;
-                            mainStep = STEP.INCREASE_INDEX;
-                            subStep = STEP.INCREASE_INDEX;
-                            goNUM = 0;
-                            break;
-                        }
+                        SwapItems(indexI, indexJ);
                         break;
                     }
                 case STEP.INCREASE_INDEX:
@@ -450,7 +394,18 @@ public class QuickSortAlg : Sort
         subStep = STEP.SELECT_PIVOT;
         canPerformNextStep = true;
     }
+    public override void EndSwapStep()
+    {
+        goNUM = 0;
+        itemsPutDown = 0;
+        itemsPickedUp = 0;
+        indexJ++;
+        mainStep = STEP.INCREASE_INDEX;
+        subStep = STEP.INCREASE_INDEX;
+        goNUM = 0;
+    }
 }
+
 //void Sortuj_szybko(int lewy, int prawy)
 //{
 //    int i, j, piwot;

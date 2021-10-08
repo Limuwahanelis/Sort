@@ -10,17 +10,19 @@ public class SelectionSort : Sort
         COMPARE,
         SWAP,
         INCREASE_INDEX,
-        PUT_ITEM_DOWN
+        PUT_ITEM_DOWN,
+        PICK_ITEM_UP
     }
-    STEP currentStep;
+    STEP mainStep;
     int indexI;
     int indexJ;
-    int goNUM = 0;
-    int itemDownNum = 0;
+    //int goNUM = 0;
+    //int itemsPickedUp = 0;
+    //int itemsPutDown = 0;
     Vector3 tmpPos;
     public SelectionSort(List<ItemToSort> items, Sorter sorter) :base(items,sorter)
     {
-        currentStep = STEP.GO_TO_LOCATION;
+        mainStep = STEP.GO_TO_LOCATION;
         goNUM = 1;
         indexJ = 0;
         indexI = indexJ + 1;
@@ -35,7 +37,7 @@ public class SelectionSort : Sort
     {
         if (canPerformNextStep)
         {
-            switch (currentStep)
+            switch (mainStep)
             {
                 case STEP.GO_TO_LOCATION:
                     {
@@ -43,23 +45,8 @@ public class SelectionSort : Sort
                         {
                             MoveToNewPos(itemsToSort[indexI]);
                             canPerformNextStep = false;
-                            currentStep = STEP.COMPARE;
-                        }
-                        if(goNUM==2)
-                        {
-                            MoveToNewPos(itemsToSort[indexJ]);
-                            canPerformNextStep = false;
-                            currentStep = STEP.SWAP;
-                            
-                        }
-                        if(goNUM==3)
-                        {
-                            MoveToNewPos(tmpPos);
-                            canPerformNextStep = false;
-                            currentStep = STEP.PUT_ITEM_DOWN;
-                            itemDownNum = 2;
-                        }
-                        
+                            mainStep = STEP.COMPARE;
+                        }              
                         break;
                     }
                 case STEP.COMPARE:
@@ -67,41 +54,19 @@ public class SelectionSort : Sort
                         if(itemsToSort[indexI].value<itemsToSort[indexJ].value)
                         {
                             tmpPos = itemsToSort[indexI].transform.position;
-                            sorter.ChangeState(new SorterPickingItemUpState(sorter, itemsToSort[indexI]));
-                            currentStep = STEP.GO_TO_LOCATION;
-                            goNUM = 2;
-                            canPerformNextStep = false;
+                            mainStep = STEP.SWAP;
+                            swapSubStep = SWAP_STEP.GO_TO_LOCATION;
+                            goNUM = 1;
                         }
                         else
                         {
-                            currentStep = STEP.INCREASE_INDEX;
+                            mainStep = STEP.INCREASE_INDEX;
                         }
                         break;
                     }
                 case STEP.SWAP:
                     {
-                        sorter.ChangeState(new SorterPickingItemUpState(sorter, itemsToSort[indexJ]));
-                        canPerformNextStep = false;
-                        currentStep = STEP.PUT_ITEM_DOWN;
-                        itemDownNum = 1;
-                        break;
-                    }
-                case STEP.PUT_ITEM_DOWN:
-                    {
-                        if(itemDownNum==1)
-                        {
-                        sorter.ChangeState(new SorterPuttingItemDownState(sorter, itemsToSort[indexI]));
-                            currentStep = STEP.GO_TO_LOCATION;
-                            goNUM = 3;
-                        }
-                        if(itemDownNum==2)
-                        {
-                            sorter.ChangeState(new SorterPuttingItemDownState(sorter, itemsToSort[indexJ]));
-                            Swap(indexI, indexJ);
-                            currentStep = STEP.INCREASE_INDEX;
-                            goNUM = 0;
-                        }
-                        canPerformNextStep = false;
+                        SwapItems(indexI, indexJ);
                         break;
                     }
                 case STEP.INCREASE_INDEX:
@@ -117,20 +82,20 @@ public class SelectionSort : Sort
                             canPerformNextStep = false;
                             break;
                         }
-                        currentStep = STEP.GO_TO_LOCATION;
+                        mainStep = STEP.GO_TO_LOCATION;
                         goNUM = 1;
                         break;
                     }
             }
         }
     }
-    void MoveToNewPos(Vector3 itemPos)
+
+    public override void EndSwapStep()
     {
-        sorter.ChangeState(new SorterMovingState(sorter, new Vector3(itemPos.x, sorter.transform.position.y, sorter.transform.position.z)));
-    }
-    void MoveToNewPos(ItemToSort item)
-    {
-        sorter.ChangeState(new SorterMovingState(sorter, new Vector3(item.transform.position.x, sorter.transform.position.y, sorter.transform.position.z)));
+        goNUM = 0;
+        itemsPutDown = 0;
+        itemsPickedUp = 0;
+        mainStep = STEP.INCREASE_INDEX;
     }
 }
 
