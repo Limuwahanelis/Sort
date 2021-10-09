@@ -51,6 +51,8 @@ public class SelectionSort : Sort
                     }
                 case STEP.COMPARE:
                     {
+                        canPerformNextStep = false;
+                        sorter.ChangeState(new SorterComparingState(sorter, itemsToSort[indexI], itemsToSort[indexJ]));
                         if(itemsToSort[indexI].value<itemsToSort[indexJ].value)
                         {
                             tmpPos = itemsToSort[indexI].transform.position;

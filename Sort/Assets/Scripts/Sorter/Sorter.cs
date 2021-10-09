@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Sorter : MonoBehaviour
 {
+    public ItemToSort it1, it2;
     public BoolReference areItemsSorted;
     public Algorithm selectedAlgorithm;
     public SorterAnimationFunctions animFunc;
     public ItemToSort lefthandItem;
     public ItemToSort righthandItem;
+    public Transform lookForwardPos;
     public Transform itemPushedPos;
     public Transform rightHandHandle;
     public Transform lefthandhandle;
@@ -17,6 +19,8 @@ public class Sorter : MonoBehaviour
     public Sort sortingAlgorithm;
     public float movementSpeed;
     public float layerSwapSpeed;
+    public float headVerticalRotationSpeed = 40f;
+    public float headHorizontalRotationSpeed = 20f;
     public bool isPushingItem=false;
     public bool swappedItems = false;
     public bool swappedLayers;
@@ -31,6 +35,7 @@ public class Sorter : MonoBehaviour
     {
         areItemsSorted.value = false;
         state = new SorterIdleState(this);
+        //state = new SorterComparingState(this, it1, it2);
     }
 
     // Update is called once per frame
@@ -44,6 +49,7 @@ public class Sorter : MonoBehaviour
                 sortingAlgorithm.PerfromStep();
             }
         }
+        //state.Update();
     }
 
     public void AddItem(ItemToSort itemToAdd)

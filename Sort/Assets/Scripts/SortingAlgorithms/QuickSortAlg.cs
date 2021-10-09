@@ -152,6 +152,8 @@ public class QuickSortAlg : Sort
                     }
                 case STEP.COMPARE:
                     {
+                        canPerformNextStep = false;
+                        sorter.ChangeState(new SorterComparingState(sorter, itemsToSort[indexI], curPivot));
                         if(subStep==STEP.COMPARE)
                         {
                             if (itemsToSort[indexI].value < curPivot.value)
