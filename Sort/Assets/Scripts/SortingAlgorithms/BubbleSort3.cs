@@ -46,6 +46,8 @@ public class BubbleSort3 : Sort
                     }
                 case STEP.COMPARE:
                     {
+                        comparisons++;
+                        sorter.counter.UpdateCounter(swaps, comparisons);
                         canPerformNextStep = false;
                         sorter.ChangeState(new SorterComparingState(sorter, itemsToSort[indexI], itemsToSort[indexI + 1]));
                         if (itemsToSort[indexI].value > itemsToSort[indexI + 1].value)

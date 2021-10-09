@@ -17,8 +17,9 @@ public abstract class Sort
     protected int goNUM = 0;
     protected int itemsPickedUp = 0;
     protected int itemsPutDown = 0;
+    protected int comparisons, swaps;
     Vector3 tmpPos;
-
+    
     public Sort(List<ItemToSort> items,Sorter sorter)
     {
         itemsToSort = items;
@@ -102,6 +103,8 @@ public abstract class Sort
             }
             if (itemsPutDown == 2)
             {
+                swaps++;
+                sorter.counter.UpdateCounter(swaps, comparisons);
                 PutItemDown(itemsToSort[item2Index]);
                 Swap(item2Index, item1Index);
                 EndSwapStep();

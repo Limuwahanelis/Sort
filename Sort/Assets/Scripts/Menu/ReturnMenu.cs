@@ -12,4 +12,9 @@ public class ReturnMenu : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    public void SetSortingSpeed(float value)
+    {
+        Time.timeScale = value;
+    }
 }

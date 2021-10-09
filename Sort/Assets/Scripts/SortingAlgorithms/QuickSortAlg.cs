@@ -141,6 +141,8 @@ public class QuickSortAlg : Sort
                         {
                             sorter.ChangeState(new SorterPuttingItemDownState(sorter,itemsToSort[curRight]));
                             Swap(indexI, curRight);
+                            swaps++;
+                            sorter.counter.UpdateCounter(swaps, comparisons);
                             canPerformNextStep = false;
                             mainStep = STEP.COMPARE;
                             subStep = STEP.GO_TO_LOCATION;
@@ -152,10 +154,14 @@ public class QuickSortAlg : Sort
                     }
                 case STEP.COMPARE:
                     {
-                        canPerformNextStep = false;
-                        sorter.ChangeState(new SorterComparingState(sorter, itemsToSort[indexI], curPivot));
+
+
                         if(subStep==STEP.COMPARE)
                         {
+                            canPerformNextStep = false;
+                            sorter.ChangeState(new SorterComparingState(sorter, itemsToSort[indexI], curPivot));
+                            comparisons++;
+                            sorter.counter.UpdateCounter(swaps, comparisons);
                             if (itemsToSort[indexI].value < curPivot.value)
                             {
                                 mainStep = STEP.SWAP;
@@ -271,6 +277,8 @@ public class QuickSortAlg : Sort
                                 sorter.ChangeState(new SorterPuttingItemDownState(sorter, curPivot));
                                 canPerformNextStep = false;
                                 Swap(indexJ, curRight);
+                                swaps++;
+                                sorter.counter.UpdateCounter(swaps, comparisons);
                                 goNUM = 0;
                                 mainStep = STEP.SELECT_PARTITION;
                             }

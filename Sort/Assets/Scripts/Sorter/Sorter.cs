@@ -7,6 +7,7 @@ public class Sorter : MonoBehaviour
     public ItemToSort it1, it2;
     public BoolReference areItemsSorted;
     public Algorithm selectedAlgorithm;
+    public StepCounter counter;
     public SorterAnimationFunctions animFunc;
     public ItemToSort lefthandItem;
     public ItemToSort righthandItem;
@@ -33,6 +34,7 @@ public class Sorter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 1f;
         areItemsSorted.value = false;
         state = new SorterIdleState(this);
         //state = new SorterComparingState(this, it1, it2);

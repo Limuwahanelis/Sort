@@ -34,13 +34,12 @@ public class Menu : MonoBehaviour
     public void SetSortingAlgorithm(int sortingAlgorithmIndex)
     {
         _algorithmIndex = sortingAlgorithmIndex;
-        
     }
 
     public void Confirm()
     {
         //spawner.SpawnItems();
-        selectedAlgorithm = algorithms[_algorithmIndex];
+        selectedAlgorithm.algorithm = algorithms[_algorithmIndex].algorithm;
         SceneManager.LoadScene(1);
     }
 
