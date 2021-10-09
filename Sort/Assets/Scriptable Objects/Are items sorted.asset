@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86a66acbb310356469f6f0e01d55e86b, type: 3}
-  m_Name: Is algorithm sorted
+  m_Name: Are items sorted
   m_EditorClassIdentifier: 
   value: 0

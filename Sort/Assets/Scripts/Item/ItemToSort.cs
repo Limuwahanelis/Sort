@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class ItemToSort : MonoBehaviour
 {
+    public bool isUsed=false;
     public int value;
     public Transform handle;
-    private Transform positionToFollow;
+    private Transform _positionToFollow;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,15 +17,15 @@ public class ItemToSort : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(positionToFollow!=null)
+        if(_positionToFollow!=null)
         {
-            transform.position = positionToFollow.position;
+            transform.position = _positionToFollow.position;
         }
     }
 
     public void SetPositionTOFollow(Transform position)
     {
-        positionToFollow = position;
+        _positionToFollow = position;
     }
 
 
