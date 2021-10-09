@@ -15,12 +15,6 @@ public class StepCounter : MonoBehaviour
         steps.text = "0";
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void UpdateCounter(int swapNum,int comparisonNum)
     {
         swaps.text = swapNum.ToString();

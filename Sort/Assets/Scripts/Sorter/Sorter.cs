@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Sorter : MonoBehaviour
 {
-    public ItemToSort it1, it2;
     public BoolReference areItemsSorted;
     public Algorithm selectedAlgorithm;
     public StepCounter counter;
@@ -37,7 +36,6 @@ public class Sorter : MonoBehaviour
         Time.timeScale = 1f;
         areItemsSorted.value = false;
         state = new SorterIdleState(this);
-        //state = new SorterComparingState(this, it1, it2);
     }
 
     // Update is called once per frame
@@ -51,7 +49,6 @@ public class Sorter : MonoBehaviour
                 sortingAlgorithm.PerfromStep();
             }
         }
-        //state.Update();
     }
 
     public void AddItem(ItemToSort itemToAdd)
@@ -136,7 +133,6 @@ public class Sorter : MonoBehaviour
             case Enums.Algorithms.SELECTION_SORT: sortingAlgorithm = new SelectionSort(itemsToSort, this); break;
             case Enums.Algorithms.QUICK_SORT: sortingAlgorithm = new QuickSortAlg(itemsToSort, this); break;
         }
-        //if(algorithm.algorithm==Enums.Algorithms.BUBBLE_SORT) sortingAlgorithm=new BubbleSort3()
 
     }
 

@@ -12,9 +12,6 @@ public class ItemPool : MonoBehaviour
     public List<GameObject> itemsToSpawnPrefabs = new List<GameObject>();
     public List<pools> poolOfItems = new List<pools>();
 
-
-
-
     public ItemToSort GetItem(int itemValue)
     {
 

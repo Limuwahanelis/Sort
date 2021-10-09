@@ -23,7 +23,7 @@ public class SorterPuttingItemDownState : SorterState
             if(_isUsingLeftHand)
             {
                 sorter.lefthandItem.transform.position = sorter.inFrontPos.position;
-                sorter.lefthandItem.SetPositionTOFollow(null);
+                sorter.lefthandItem.SetPositionToFollow(null);
                 sorter.lefthandItem = null;
                 if(_isRightHandHoldingItem) sorter.StartCoroutine(sorter.LowerAnimationWeight(4));
                 else sorter.StartCoroutine(sorter.SwapAnimatorWeighs(4, 1));
@@ -32,7 +32,7 @@ public class SorterPuttingItemDownState : SorterState
             else
             {
                 sorter.righthandItem.transform.position = sorter.inFrontPos.position;
-                sorter.righthandItem.SetPositionTOFollow(null);
+                sorter.righthandItem.SetPositionToFollow(null);
                 sorter.righthandItem = null;
                 if(_isLeftHandHoldingItem) sorter.StartCoroutine(sorter.LowerAnimationWeight(5));
                 else sorter.StartCoroutine(sorter.SwapAnimatorWeighs(5, 1));

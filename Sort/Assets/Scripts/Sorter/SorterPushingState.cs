@@ -22,12 +22,12 @@ public class SorterPushingState : SorterState
     {
         if (sorter.animFunc.hashandAbove)
         {
-            itemToPush.SetPositionTOFollow(sorter.lefthandhandle);
+            itemToPush.SetPositionToFollow(sorter.lefthandhandle);
         }
         if(sorter.animFunc.hasHandAbovePushedItem)
         {
             itemToPush.transform.position = sorter.itemPushedPos.position;
-            itemToPush.SetPositionTOFollow(null);
+            itemToPush.SetPositionToFollow(null);
         }
         if (sorter.animFunc.isHandback)
         {

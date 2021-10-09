@@ -35,8 +35,8 @@ public class SorterPickingItemUpState : SorterState
         if(_isGrabbing)
         {
             _isGrabbing = false;
-            if (_isGrabbingWithLeftHand) itemToGrab.SetPositionTOFollow(sorter.lefthandhandle);
-            else itemToGrab.SetPositionTOFollow(sorter.rightHandHandle);
+            if (_isGrabbingWithLeftHand) itemToGrab.SetPositionToFollow(sorter.lefthandhandle);
+            else itemToGrab.SetPositionToFollow(sorter.rightHandHandle);
 
         }
         if(sorter.animFunc.isItemAtHoldPos)

@@ -1507,7 +1507,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4149536153406167425}
         m_TargetAssemblyTypeName: Menu, Assembly-CSharp
-        m_MethodName: CheckValue2
+        m_MethodName: ChangeNumberOfItems
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1590,7 +1590,7 @@ GameObject:
   - component: {fileID: 4149536152588115688}
   - component: {fileID: 4149536152588115689}
   m_Layer: 5
-  m_Name: InputField (TMP)
+  m_Name: number of sorted items
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

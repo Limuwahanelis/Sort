@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class SorterComparingState : SorterState
 {
+    private float angleError = 2f;
+    private float angleBiggerError = 5f;
 
+    Coroutine corV;
+    Coroutine corH;
+    bool skipV = false;
+    bool skipH = false;
+    private float normalVerticalSpeed;
     private float targetVerticalAngle;
     private float targetHorizontalAngle;
 
@@ -30,7 +37,7 @@ public class SorterComparingState : SorterState
         this.item1 = item1;
         this.item2 = item2;
         rotateTo1Item = true;
-
+        normalVerticalSpeed = sorter.headVerticalRotationSpeed;
         SetPositionToRotateTo(this.item1.transform.position);
 
     }
@@ -40,18 +47,30 @@ public class SorterComparingState : SorterState
         {
             if(Rotate())
             {
+                if (normalVerticalSpeed != 0)
+                {
+
+                    sorter.headVerticalRotationSpeed = normalVerticalSpeed;
+                }
                 rotateTo1Item = false;
                 SetPositionToRotateTo(item2.transform.position);
                 rotateTo2Item = true;
+
             }
         }
         if(rotateTo2Item)
         {
             if(Rotate())
             {
+                if (normalVerticalSpeed != 0)
+                {
+
+                    sorter.headVerticalRotationSpeed = normalVerticalSpeed;
+                }
                 rotateTo2Item = false;
                 lookForward = true;
                 SetPositionToRotateTo(sorter.lookForwardPos.position);
+
             }
         }
         if (lookForward)
@@ -59,6 +78,11 @@ public class SorterComparingState : SorterState
             if (Rotate())
             {
                 lookForward = false;
+                if(normalVerticalSpeed!=0)
+                {
+
+                    sorter.headVerticalRotationSpeed = normalVerticalSpeed;
+                }
                 sorter.ChangeState(new SorterIdleState(sorter));
                 sorter.sortingAlgorithm.MoveToNextStep();
             }
@@ -74,12 +98,23 @@ public class SorterComparingState : SorterState
         tmpPos2 = new Vector3(sorter.transform.position.x, pos.y, pos.z);
         direction2 = tmpPos2 - sorter.transform.position;
         targetHorizontalAngle = Vector3.SignedAngle(sorter.transform.forward, direction2, Vector3.right)-50f; // without -50f character looks too low
+
+        if (pos != sorter.lookForwardPos.position)
+        {
+            if (Mathf.Abs(pos.x - sorter.transform.position.x) <= 1f)
+            {
+                normalVerticalSpeed = sorter.headVerticalRotationSpeed;
+                sorter.headVerticalRotationSpeed = sorter.headVerticalRotationSpeed / 2;
+            }
+        }
+        corH= sorter.StartCoroutine(timerHCor());
+        corV=sorter.StartCoroutine(timerVCor());
     }
 
     bool Rotate()
     {
         bool rotated = true;
-        if (Mathf.Abs(verticalAngle - targetVerticalAngle) > 2f)
+        if (Mathf.Abs(verticalAngle - targetVerticalAngle) > ((Time.timeScale > 3) ? angleBiggerError : angleError))
         {
             rotated = false;
             if(verticalAngle>targetVerticalAngle)
@@ -96,7 +131,11 @@ public class SorterComparingState : SorterState
         {
             verticalAngle = targetVerticalAngle;
         }
-        if (Mathf.Abs(horizontalAngle - targetHorizontalAngle) > 1f)
+        if(skipV)
+        {
+            verticalAngle = targetVerticalAngle;
+        }
+        if (Mathf.Abs(horizontalAngle - targetHorizontalAngle) > ((Time.timeScale > 4) ? angleBiggerError : angleError))
         {
             rotated = false;
 
@@ -114,10 +153,31 @@ public class SorterComparingState : SorterState
         {
             horizontalAngle = targetHorizontalAngle;
         }
+        if(skipH)
+        {
+            horizontalAngle = targetHorizontalAngle;
+        }
         if (rotated)
         {
+            sorter.StopCoroutine(corV);
+            sorter.StopCoroutine(corH);
+            skipH = false;
+            skipV = false;
             return true;
+
         }
         return false;
+    }
+
+    IEnumerator timerVCor()
+    {
+        yield return new WaitForSeconds(1.5f);
+        skipV = true;
+
+    }
+    IEnumerator timerHCor()
+    {
+        yield return new WaitForSeconds(1.5f);
+        skipH = true;
     }
 }

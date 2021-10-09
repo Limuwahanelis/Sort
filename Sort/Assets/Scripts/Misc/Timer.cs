@@ -21,7 +21,6 @@ public class Timer : MonoBehaviour
         if (!areItemsSorted.value)
         {
             _time += Time.deltaTime;
-            //_time += Time.deltaTime;
             _text.text = FormatTime();
         }
     }

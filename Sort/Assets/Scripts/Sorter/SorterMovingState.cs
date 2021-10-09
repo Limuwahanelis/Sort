@@ -42,10 +42,6 @@ public class SorterMovingState : SorterState
             
             sorter.ChangeState(new SorterIdleState(sorter));
             sorter.sortingAlgorithm.MoveToNextStep();
-            //sorter.StartCoroutine(sorter.WaitSomeTIme(1f, () =>
-            //{
-            //    sorter.sortingAlgorithm.MoveToNextStep();
-            //}));
 
         }
     }

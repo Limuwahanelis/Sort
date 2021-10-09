@@ -27,7 +27,7 @@ public class SorterGrabPushedItemState : SorterState
         }
         if (sorter.animFunc.hasHandAbovePushedItem)
         {
-            itemToGrab.SetPositionTOFollow(sorter.lefthandhandle);
+            itemToGrab.SetPositionToFollow(sorter.lefthandhandle);
         }
         if(sorter.animFunc.isItemAtHoldPos)
         {

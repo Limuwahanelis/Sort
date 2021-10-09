@@ -52,6 +52,7 @@ public class SelectionSort : Sort
                 case STEP.COMPARE:
                     {
                         comparisons++;
+                        sorter.counter.UpdateCounter(swaps, comparisons);
                         canPerformNextStep = false;
                         sorter.ChangeState(new SorterComparingState(sorter, itemsToSort[indexI], itemsToSort[indexJ]));
                         if(itemsToSort[indexI].value<itemsToSort[indexJ].value)

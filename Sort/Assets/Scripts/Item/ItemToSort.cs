@@ -23,7 +23,7 @@ public class ItemToSort : MonoBehaviour
         }
     }
 
-    public void SetPositionTOFollow(Transform position)
+    public void SetPositionToFollow(Transform position)
     {
         _positionToFollow = position;
     }
