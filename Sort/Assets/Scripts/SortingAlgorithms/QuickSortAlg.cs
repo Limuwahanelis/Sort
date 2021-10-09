@@ -160,13 +160,6 @@ public class QuickSortAlg : Sort
                                 swapSubStep = SWAP_STEP.GO_TO_LOCATION;
                                 itemsPickedUp = 1;
                                 goNUM = 1;
-                                if (indexI==indexJ)
-                                {
-                                    mainStep = STEP.INCREASE_INDEX;
-                                    subStep = STEP.INCREASE_INDEX;
-                                    indexJ++;
-                                    break;
-                                }
                             }
                             else
                             {

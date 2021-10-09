@@ -70,13 +70,21 @@ public abstract class Sort
         {
             if (itemsPickedUp == 1)
             {
+
                 tmpPos = itemsToSort[item1Index].transform.position;
                 PickItemUp(itemsToSort[item1Index]);
+                if (item2Index == item1Index)
+                {
+                    swapSubStep = SWAP_STEP.PUT_ITEM_DOWN;
+                    itemsPutDown = 2;
+                    return;
+                }
                 swapSubStep = SWAP_STEP.GO_TO_LOCATION;
                 goNUM = 2;
             }
             if (itemsPickedUp == 2)
             {
+
                 PickItemUp(itemsToSort[item2Index]);
                 swapSubStep = SWAP_STEP.PUT_ITEM_DOWN;
                 itemsPutDown = 1;

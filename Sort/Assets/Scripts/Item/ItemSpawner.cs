@@ -25,6 +25,7 @@ public class ItemSpawner : MonoBehaviour
 
         SpawnItems();
         }
+        sorter.MakeActive();
     }
 
     private void Update()
@@ -46,19 +47,19 @@ public class ItemSpawner : MonoBehaviour
             sorter.AddItem(item);
             xPos += distanceBetweenItems;
         }
-        sorter.MakeActive();
     }
 
     public void SpawnSelected()
     {
-        float startingXPos = middlePoint.position.x + 1 * ((itemsToSpawnSelectedPrefabs.Count / 2) * distanceBetweenItems);
+        float startingXPos = middlePoint.position.x - 1 * ((itemsToSpawnSelectedPrefabs.Count / 2) * distanceBetweenItems);
         float xPos = startingXPos;
         for (int i = 0; i < itemsToSpawnSelectedPrefabs.Count; i++)
         {
             GameObject item = itemsToSpawnSelectedPrefabs[i];
-            Vector3 pos = new Vector3(xPos, 1.125f, -0.5f);
+            Vector3 pos = new Vector3(xPos, 1.125f, 0.5f);
             GameObject newItem = Instantiate(item, pos, item.transform.rotation);
             sorter.AddItem(newItem.GetComponent<ItemToSort>());
+            xPos += distanceBetweenItems;
         }
     }
 
