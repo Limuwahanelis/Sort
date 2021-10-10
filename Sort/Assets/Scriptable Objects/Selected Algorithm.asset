@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 096bbd10782d3f24c826befc3f6a0fbf, type: 3}
   m_Name: Selected Algorithm
   m_EditorClassIdentifier: 
-  algorithm: 1
+  algorithm: 2

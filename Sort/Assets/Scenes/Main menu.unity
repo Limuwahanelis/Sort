@@ -2627,7 +2627,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Number of items to sort (2-30)
+  m_text: Number of items to sort (2-20)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2890,6 +2890,7 @@ MonoBehaviour:
     useConstant: 0
     constantValue: 0
     variable: {fileID: 11400000, guid: f2f14cedd1976ce4f98e8babe251e267, type: 2}
+  _maximumNumberOfItems: 20
 --- !u!224 &4149536153406167426
 RectTransform:
   m_ObjectHideFlags: 0

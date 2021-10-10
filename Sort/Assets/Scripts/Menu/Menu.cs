@@ -5,12 +5,15 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class Menu : MonoBehaviour
 {
+
     public Algorithm selectedAlgorithm;
     public List<Algorithm> algorithms;
-    List<string> _dropdownOptions=new List<string>();
     public TMP_Dropdown algortihmSelectionDropdown;
     public TMP_InputField inputField;
     public IntReference numberOfItemsToSort;
+    [SerializeField]
+    private int _maximumNumberOfItems;
+    List<string> _dropdownOptions=new List<string>();
     int _algorithmIndex;
     void Start()
     {
@@ -39,7 +42,7 @@ public class Menu : MonoBehaviour
     {
         if (value == "") return;
         int parsedvalue = int.Parse(value);
-        parsedvalue = Mathf.Clamp(parsedvalue, 2, 30);
+        parsedvalue = Mathf.Clamp(parsedvalue, 2, _maximumNumberOfItems);
 
         inputField.text = parsedvalue.ToString();
         numberOfItemsToSort.value = parsedvalue;
@@ -49,7 +52,7 @@ public class Menu : MonoBehaviour
     {
         if (value == "") return;
         int parsedvalue = int.Parse(value);
-        parsedvalue= Mathf.Clamp(parsedvalue, 1, 30);
+        parsedvalue= Mathf.Clamp(parsedvalue, 1, _maximumNumberOfItems);
 
         inputField.text = parsedvalue.ToString();
     }

@@ -87,9 +87,6 @@ public class QuickSortAlg : Sort
                             indexI = (curLeft + curRight) / 2;
                             curLastItemPos = itemsToSort[curRight].transform.position;
                             curPivot = itemsToSort[indexI];
-                            Debug.Log("New left: " + curLeft);
-                            Debug.Log("New Pivot: " + indexI);
-                            Debug.Log("New right: " + curRight);
                             goNUM++;
                             subStep = STEP.GO_TO_LOCATION;
                         }
