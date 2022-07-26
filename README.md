@@ -1,0 +1,1 @@
+Simple application visualising selected sorting algorithms
